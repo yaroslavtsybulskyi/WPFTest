@@ -1,5 +1,6 @@
 ﻿using System;
 
+
 namespace Logistic.ConsoleClient
 {
     class Program
@@ -19,7 +20,7 @@ namespace Logistic.ConsoleClient
 
         public static void SuccessScenario()
         {
-            Vehicle car = new Vehicle(Vehicle.VehicleType.Car, 500, 600);
+            Vehicle car = new Vehicle(VehicleType.Car, 500, 600);
             Console.WriteLine(car.GetInformation());
 
             Cargo cargo1 = new Cargo(10, 5, "A1");
@@ -40,7 +41,7 @@ namespace Logistic.ConsoleClient
 
         public static void ExceptionScenario()
         {
-            Vehicle ship = new Vehicle(Vehicle.VehicleType.Ship, 1000, 10000);
+            Vehicle ship = new Vehicle(VehicleType.Ship, 1000, 10000);
             Console.WriteLine(ship.GetInformation());
 
             Console.WriteLine("--------------------------------------");

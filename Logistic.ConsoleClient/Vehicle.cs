@@ -1,7 +1,9 @@
 ﻿using System;
+
 namespace Logistic.ConsoleClient
 {
-	public class Vehicle
+    
+    public class Vehicle
 	{
 
 		public const double ConvertionRateKgPnd = 2.2;
