@@ -24,7 +24,6 @@ namespace Logistic.ConsoleClient
 			this.Free = false;
 		}
 
-		//returns information about cargo
 		public string GetInformation()
 		{
 			string textToReturn = $"Volume of the cargo: {this.Volume} m3 \nWeight of the cargo: {this.Weight} kg \nCargo Code: {this.Code}";

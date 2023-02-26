@@ -4,7 +4,7 @@ namespace Logistic.ConsoleClient
 	public class Vehicle
 	{
 
-		public const double CONVERSIONRATEKGPND = 2.2;
+		public const double ConvertionRateKgPnd = 2.2;
 
         public VehicleType Type { get; set; }
         public string Number { get; set; }
@@ -15,26 +15,13 @@ namespace Logistic.ConsoleClient
 		public int CargoWeightLeftKg { get; set; }
 		public double CargoVolumeLeft { get; set; }
 
-        public enum VehicleType
-        {
-            Car,
-            Ship,
-            Plane,
-            Train
-        }
-
-		public enum WeightUnit
-		{
-			Kilograms,
-			Pounds
-		}
-
+		
 		public Vehicle(VehicleType type, int maxCargoWeightKg, double maxCargoVolume)
 		{
 			this.Type = type;
 			this.Number = "AA11";
 			this.MaxCargoWeightKg = maxCargoWeightKg;
-			this.MaxCargoWeightPnd = CONVERSIONRATEKGPND * maxCargoWeightKg;
+			this.MaxCargoWeightPnd = ConvertionRateKgPnd * maxCargoWeightKg;
 			this.MaxCargoVolume = maxCargoVolume;
 			this.CargoVolumeLeft = this.MaxCargoVolume;
 			this.CargoWeightLeftKg = this.MaxCargoWeightKg;
@@ -46,7 +33,6 @@ namespace Logistic.ConsoleClient
 
 		}
 
-		//Gets available volume for cargo
 		public string GetCargoVolumeLeft()
 		{
 			double volumeUsed = 0d;
@@ -59,7 +45,6 @@ namespace Logistic.ConsoleClient
 			return $"Volume left: {volumeLeft}";
 		}
 
-		//Gets available weight unit of cargo
 		public string GetCargoWeightLeft(WeightUnit weightUnit)
 		{
 			if (weightUnit == WeightUnit.Kilograms)
@@ -83,7 +68,7 @@ namespace Logistic.ConsoleClient
 					usedInKg += i.Weight;
 				}
 
-				pndUsed = CONVERSIONRATEKGPND * usedInKg;
+				pndUsed = ConvertionRateKgPnd * usedInKg;
 
 				double weightLeftPnd = this.MaxCargoWeightPnd - pndUsed;
 				return $"Weight Left: {weightLeftPnd} pnd";
@@ -92,7 +77,6 @@ namespace Logistic.ConsoleClient
 
 		}
 
-		//Gets information about Vehicle
 		public string GetInformation()
 		{
 				int numberOfCargo = 0;
@@ -119,21 +103,17 @@ namespace Logistic.ConsoleClient
 				if(totalCargoVolume > 0d && totalCargoWeight > 0)
 				{
 
-					string textToReturn = $"Vehicle Type: {this.Type}\nNumber: {this.Number}\nMaxCargoWeightInKg: {this.MaxCargoWeightKg} kg" +
-					$"\nMaxCargoWeightInPnd: {this.MaxCargoWeightPnd} pnd \nMaxCargoVolume: {this.MaxCargoVolume} m3 \nNumber of Cargo: {numberOfCargo} " +
-					$"\nTotal Cargo Volume: {totalCargoVolume} m3 \nTotal Cargo Weight: {totalCargoWeight} kg";
-
-				return textToReturn;
-				}
+				return $"Vehicle Type: {this.Type}\nNumber: {this.Number}\nMaxCargoWeightInKg: {this.MaxCargoWeightKg} kg" +
+                    $"\nMaxCargoWeightInPnd: {this.MaxCargoWeightPnd} pnd \nMaxCargoVolume: {this.MaxCargoVolume} m3 \nNumber of Cargo: {numberOfCargo} " +
+                    $"\nTotal Cargo Volume: {totalCargoVolume} m3 \nTotal Cargo Weight: {totalCargoWeight} kg";
+            }
 			else
 				{
-					string textToReturn = $"Vehicle Type: {this.Type}\nNumber: {this.Number}\nMaxCargoWeightInKg: {this.MaxCargoWeightKg} kg " +
+                return $"Vehicle Type: {this.Type}\nNumber: {this.Number}\nMaxCargoWeightInKg: {this.MaxCargoWeightKg} kg " +
                     $"\nMaxCargoWeightInPnd: {this.MaxCargoWeightPnd} pnd \nMaxCargoVolume: {this.MaxCargoVolume} m3 \nNo cargo loaded";
-                return textToReturn;
-				}
+            }
 		}
 
-		//Loads cargo to vehicle
 		public void LoadCargo(Cargo cargo)
 		{
 			try
