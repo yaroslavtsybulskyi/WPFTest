@@ -10,11 +10,5 @@ namespace Logistic.ConsoleClient
         Train
     }
 
-    public enum WeightUnit
-    {
-        Kilograms,
-        Pounds
-    }
-
 }
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Logistic.ConsoleClient.Enums;
 
 namespace Logistic.ConsoleClient
 {
@@ -28,10 +29,6 @@ namespace Logistic.ConsoleClient
 			this.CargoVolumeLeft = this.MaxCargoVolume;
 			this.CargoWeightLeftKg = this.MaxCargoWeightKg;
 			this.Cargos = new Cargo[100];
-			for (int i = 0; i < this.Cargos.Length; i++)
-			{
-				this.Cargos[i] = new Cargo();
-			}
 
 		}
 
@@ -81,24 +78,18 @@ namespace Logistic.ConsoleClient
 
 		public string GetInformation()
 		{
-				int numberOfCargo = 0;
 				double totalCargoVolume = 0;
 				int totalCargoWeight = 0;
+				int count = this.Cargos.Count(n => n != null);
 
-				foreach (Cargo i in Cargos)
+				foreach (Cargo i in this.Cargos)
 				{
-				if (i.Free == false)
-				{
-					numberOfCargo += 1;
-				}
-				
-				}
+				if (i != null)
 
-
-				foreach (Cargo i in Cargos)
 				{
-					totalCargoVolume += i.Volume;
-					totalCargoWeight += i.Weight;
+                    totalCargoVolume += i.Volume;
+                    totalCargoWeight += i.Weight;
+                }
 					
 				}
 
@@ -106,14 +97,14 @@ namespace Logistic.ConsoleClient
 				{
 
 				return $"Vehicle Type: {this.Type}\nNumber: {this.Number}\nMaxCargoWeightInKg: {this.MaxCargoWeightKg} kg" +
-                    $"\nMaxCargoWeightInPnd: {this.MaxCargoWeightPnd} pnd \nMaxCargoVolume: {this.MaxCargoVolume} m3 \nNumber of Cargo: {numberOfCargo} " +
+                    $"\nMaxCargoWeightInPnd: {this.MaxCargoWeightPnd} pnd \nMaxCargoVolume: {this.MaxCargoVolume} m3 \nNumber of Cargo: {count} " +
                     $"\nTotal Cargo Volume: {totalCargoVolume} m3 \nTotal Cargo Weight: {totalCargoWeight} kg";
-            }
-			else
+				}
+				else
 				{
                 return $"Vehicle Type: {this.Type}\nNumber: {this.Number}\nMaxCargoWeightInKg: {this.MaxCargoWeightKg} kg " +
                     $"\nMaxCargoWeightInPnd: {this.MaxCargoWeightPnd} pnd \nMaxCargoVolume: {this.MaxCargoVolume} m3 \nNo cargo loaded";
-            }
+				}
 		}
 
 		public void LoadCargo(Cargo cargo)
@@ -143,15 +134,13 @@ namespace Logistic.ConsoleClient
                     this.CargoVolumeLeft -= cargo.Volume;
                 }
 
-                for (int i = 0; i < this.Cargos.Length; i++)
-                {
-                    if (this.Cargos[i].Free == true)
-                    {
-                        this.Cargos[i] = cargo;
-						this.Cargos[i].Free = false;
-                        break;
-                    }
-                }
+				for (int i = 0; i < this.Cargos.Length; i++)
+				{
+					if (this.Cargos[i] == null) {
+						this.Cargos[i] = cargo;
+						break;
+					}
+				}
             }
 			catch (MoreVolumeNeeded)
 			{

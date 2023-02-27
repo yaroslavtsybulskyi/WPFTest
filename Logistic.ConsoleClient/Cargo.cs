@@ -6,14 +6,12 @@ namespace Logistic.ConsoleClient
 		public double Volume { get; set; }
 		public int Weight { get; set; }
 		public string Code { get; set; }
-		public bool Free { get; set; }
 
 		public Cargo()
 		{
 			this.Volume = 0d;
 			this.Weight = 0;
 			this.Code = "0000";
-			this.Free = true;
 		}
 
 		public Cargo(double volume, int weight, string code)
@@ -21,7 +19,6 @@ namespace Logistic.ConsoleClient
 			this.Volume = volume;
 			this.Weight = weight;
 			this.Code = code;
-			this.Free = false;
 		}
 
 		public string GetInformation()
