@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 25.0.1704.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HW1", "HW1\HW1.csproj", "{4E2C603D-F0FC-448C-9973-9C67A76CB01D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logistic.ConsoleClient", "HW1\Logistic.ConsoleClient.csproj", "{4E2C603D-F0FC-448C-9973-9C67A76CB01D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
