@@ -1,15 +1,18 @@
 ﻿using System;
 using Logistic.ConsoleClient.Enums;
+using Logistic.ConsoleClient.Repositories;
 
 namespace Logistic.ConsoleClient
 {
     
-    public class Vehicle
+    public class Vehicle 
 	{
 
 		public const double ConvertionRateKgPnd = 2.2;
 
-        public VehicleType Type { get; set; }
+		public static int lastId = 0;
+		public int Id { get; set; }
+		public VehicleType Type { get; set; }
         public string Number { get; set; }
         public int MaxCargoWeightKg { get; set; }
         public double MaxCargoWeightPnd { get; set; }
@@ -21,6 +24,7 @@ namespace Logistic.ConsoleClient
 		
 		public Vehicle(VehicleType type, int maxCargoWeightKg, double maxCargoVolume)
 		{
+			lastId++;
 			this.Type = type;
 			this.Number = "AA11";
 			this.MaxCargoWeightKg = maxCargoWeightKg;
@@ -29,6 +33,7 @@ namespace Logistic.ConsoleClient
 			this.CargoVolumeLeft = this.MaxCargoVolume;
 			this.CargoWeightLeftKg = this.MaxCargoWeightKg;
 			this.Cargos = new Cargo[100];
+			this.Id = lastId;
 
 		}
 
@@ -151,7 +156,12 @@ namespace Logistic.ConsoleClient
 				Console.WriteLine($"Cargo is {cargo.Volume} m3 and {cargo.Weight} kg. Vehicle is overweight");
 			}
 		}
+        public override string ToString()
+        {
+            return $"Id: {Id}, Type: {Type}, Number: {Number}, MaxCargoWeight (kg): {MaxCargoWeightKg}, MaxCargoWeight (pnd): {MaxCargoWeightPnd}, MaxCargoVolume: {MaxCargoVolume}, CargoWeightLeft (kg): {CargoWeightLeftKg}, CargoVolumeLeft: {CargoVolumeLeft}";
+        }
 
-	}
+
+    }
 }
 

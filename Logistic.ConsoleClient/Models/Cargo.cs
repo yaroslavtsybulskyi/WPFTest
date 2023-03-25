@@ -1,4 +1,6 @@
 ﻿using System;
+using Logistic.ConsoleClient.Repositories;
+
 namespace Logistic.ConsoleClient
 {
 	public class Cargo
@@ -6,12 +8,14 @@ namespace Logistic.ConsoleClient
 		public double Volume { get; set; }
 		public int Weight { get; set; }
 		public string Code { get; set; }
+		public Guid Id { get; set; }
 
 		public Cargo()
 		{
 			this.Volume = 0d;
 			this.Weight = 0;
 			this.Code = "0000";
+			this.Id = Guid.NewGuid();
 		}
 
 		public Cargo(double volume, int weight, string code)
@@ -19,7 +23,16 @@ namespace Logistic.ConsoleClient
 			this.Volume = volume;
 			this.Weight = weight;
 			this.Code = code;
-		}
+            this.Id = Guid.NewGuid();
+        }
+
+		public Cargo(double volume, int weight)
+		{
+            this.Volume = volume;
+            this.Weight = weight;
+            this.Code = "0000";
+            this.Id = Guid.NewGuid();
+        }
 
 		public string GetInformation()
 		{
