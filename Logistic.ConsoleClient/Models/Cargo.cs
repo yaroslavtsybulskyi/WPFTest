@@ -1,4 +1,5 @@
 ﻿using System;
+using Logistic.ConsoleClient.Models;
 using Logistic.ConsoleClient.Repositories;
 
 namespace Logistic.ConsoleClient
@@ -9,6 +10,7 @@ namespace Logistic.ConsoleClient
 		public int Weight { get; set; }
 		public string Code { get; set; }
 		public Guid Id { get; set; }
+		public Invoice Invoice { get; set; }
 
 		public Cargo()
 		{
@@ -16,6 +18,7 @@ namespace Logistic.ConsoleClient
 			this.Weight = 0;
 			this.Code = "0000";
 			this.Id = Guid.NewGuid();
+			this.Invoice = new Invoice();
 		}
 
 		public Cargo(double volume, int weight, string code)
@@ -24,6 +27,7 @@ namespace Logistic.ConsoleClient
 			this.Weight = weight;
 			this.Code = code;
             this.Id = Guid.NewGuid();
+			this.Invoice = new Invoice();
         }
 
 		public Cargo(double volume, int weight)
@@ -32,6 +36,7 @@ namespace Logistic.ConsoleClient
             this.Weight = weight;
             this.Code = "0000";
             this.Id = Guid.NewGuid();
+			this.Invoice = new Invoice();
         }
 
 		public string GetInformation()

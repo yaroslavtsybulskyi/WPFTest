@@ -55,12 +55,30 @@ namespace Logistic.ConsoleClient.Services
         public void LoadCargo(Cargo cargo, int vehicleId)
         {
             var vehicle = GetById(vehicleId);
-            if (vehicle.CargoWeightLeftKg < cargo.Weight)
+            var totalWeight = vehicle.Cargos.Sum(c => c.Weight);
+            var totalVolume = vehicle.Cargos.Sum(c => c.Volume);
+
+            if (totalWeight + cargo.Weight > vehicle.CargoWeightLeftKg)
             {
                 throw new ArgumentException($"Cargo with weight {cargo.Weight} cannot be loaded into vehicle with id {vehicleId}. The vehicle is already at full capacity");
             }
 
-            vehicle.LoadCargo(cargo);
+            if (totalVolume + cargo.Volume > vehicle.CargoVolumeLeft)
+            {
+                throw new ArgumentException($"Cargo with weight {cargo.Volume} cannot be loaded into vehicle with id {vehicleId}. The vehicle has no free space");
+            }
+
+            for (int i = 0; i < vehicle.Cargos.Length; i++)
+            {
+                if (vehicle.Cargos[i] == null)
+                {
+                    vehicle.Cargos[i] = cargo;
+                    break;
+                }
+            }
+            vehicle.CargoWeightLeftKg -= cargo.Weight;
+            vehicle.CargoVolumeLeft -= cargo.Volume;
+
             _repository.Update(vehicleId, vehicle);
         }
 
@@ -74,6 +92,7 @@ namespace Logistic.ConsoleClient.Services
             }
 
             vehicle.Cargos = vehicle.Cargos.Where(n => n != cargo).ToArray();
+            vehicle.CargoVolumeLeft += cargo.Volume;
             vehicle.CargoWeightLeftKg += cargo.Weight;
             _repository.Update(vehicleId, vehicle);
         }
