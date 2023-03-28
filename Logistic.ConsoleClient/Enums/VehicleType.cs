@@ -9,6 +9,5 @@ namespace Logistic.ConsoleClient
         Plane,
         Train
     }
-
 }
 
