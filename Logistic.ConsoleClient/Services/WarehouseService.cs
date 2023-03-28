@@ -4,9 +4,9 @@ using Logistic.ConsoleClient.Repositories;
 
 namespace Logistic.ConsoleClient.Services
 {
-        public class WarehouseService
-        {
-            private readonly InMemoryRepository<Warehouse> _repository;
+    public class WarehouseService
+    {
+        private readonly InMemoryRepository<Warehouse> _repository;
 
             public WarehouseService(InMemoryRepository<Warehouse> repository)
             {
@@ -51,8 +51,7 @@ namespace Logistic.ConsoleClient.Services
 
                 warehouse.CargoList?.Remove(cargo);
                 _repository.Update(warehouseId, warehouse);
-            }
-        }
-
+            }    
+    }
 }
 

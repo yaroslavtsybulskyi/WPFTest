@@ -18,8 +18,6 @@ namespace Logistic.ConsoleClient
             var warehouseService = (WarehouseService)services["WarehouseService"];
             var vehicleReportService = (ReportService<Vehicle>)services["VehicleReportService"];
             var warehouseReportService = (ReportService<Warehouse>)services["WarehouseReportService"];
-            var vehicleRepository = (InMemoryRepository<Vehicle>)services["VehicleRepository"];
-            var warehouseRepository = (InMemoryRepository<Warehouse>)services["WarehouseRepository"];
 
             bool exit = true;
 
@@ -71,49 +69,33 @@ namespace Logistic.ConsoleClient
                         Console.WriteLine("Command not recognized.Try again");
                         exit = true;
                         break;
-                } 
-
+                }
             }
 
             void ExecuteAdd(string [] input)
             {
-          
                 switch (input[1].ToLower())
                 {
                     case "vehicle":
 
-                        VehicleType vehicleType = VehicleType.Car;
-                        
-                            Console.WriteLine("Enter vehicle type: car, plane, ship, train");
-                            var vehicleTypeInput = Console.ReadLine();
+                        try
+                        {
+                            VehicleType vehicleType = (VehicleType)Enum.Parse(typeof(VehicleType), input[2], ignoreCase: true);
 
-                            switch (vehicleTypeInput.ToLower())
-                            {
-                                case "car":
-                                    vehicleType = VehicleType.Car;
-                                    break;
-                                case "train":
-                                    vehicleType = VehicleType.Train;
-                                    break;
-                                case "plane":
-                                    vehicleType = VehicleType.Plane;
-                                    break;
-                                case "ship":
-                                    vehicleType = VehicleType.Ship;
-                                    break;
-                                default:
-                                    Console.WriteLine("Not specified vehicle");
-                                    break;
-                            }
+                            Console.WriteLine("Enter maximal cargo weight in Kg. For example - 500");
+                            int maxCargoWeightKg = int.Parse(Console.ReadLine());
 
-                        Console.WriteLine("Enter maximal cargo weight in Kg. For example - 500");
-                        int maxCargoWeightKg = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Enter maximal cargo volume for vehicle.");
+                            double maxCargoVolume = double.Parse(Console.ReadLine());
 
-                        Console.WriteLine("Enter maximal cargo volume for vehicle.");
-                        double maxCargoVolume = double.Parse(Console.ReadLine());
+                            var vehicle = new Vehicle(vehicleType, maxCargoWeightKg, maxCargoVolume);
+                            vehicleService.Create(vehicle);
+                        }
 
-                        var vehicle = new Vehicle(vehicleType, maxCargoWeightKg, maxCargoVolume);
-                        vehicleService.Create(vehicle);
+                        catch (ArgumentException ex)
+                        {
+                            Console.WriteLine($"Invalid vehicle type: {input[2]}. Please specify correct vehicle type.");
+                        }
                         break;
 
                     case "warehouse":
@@ -124,12 +106,10 @@ namespace Logistic.ConsoleClient
                         Console.WriteLine("Not specified entity. Try again");
                         break;
                 }
-
             }
 
             void ExecuteGet(string[] input)
             {
-                
                     switch (input[1].ToLower())
                     {
                         case "vehicle":
@@ -155,12 +135,10 @@ namespace Logistic.ConsoleClient
                             Console.WriteLine("Incorrect entity. Please try again");
                             break;
                     }
-                
             }
 
             void ExecuteLoad(string[] input)
             {
-             
                     switch (input[1].ToLower())
                     {
                         case "vehicle":
@@ -209,7 +187,6 @@ namespace Logistic.ConsoleClient
 
             void ExecuteUnload(string[] input)
             {
-                
                     switch (input[1].ToLower())
                     {
                         case "vehicle":
@@ -251,7 +228,6 @@ namespace Logistic.ConsoleClient
 
             void ExecuteCreate(string[] input)
             {
-    
                     switch (input[1].ToLower())
                     {
                         case "vehicle":
@@ -292,10 +268,7 @@ namespace Logistic.ConsoleClient
                             Console.WriteLine("Please, specify the correct entity to generate report for");
                             break;
                     }
-               
             }
-
         }
-
     }
 }

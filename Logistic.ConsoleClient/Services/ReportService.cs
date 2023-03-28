@@ -59,6 +59,4 @@ namespace Logistic.ConsoleClient.Services
             }
         }
     }
-
-
 }

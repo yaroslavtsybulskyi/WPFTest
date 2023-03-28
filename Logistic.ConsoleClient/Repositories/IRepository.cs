@@ -8,7 +8,5 @@
         void Update(object id, TEntity entity);
         void Delete(object id);
     }
-
-
 }
 

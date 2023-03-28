@@ -11,10 +11,10 @@ namespace Logistic.ConsoleClient
         {
             var services = new Dictionary<string, object>();
 
-            var vehicleRepository = new InMemoryRepository<Vehicle>(vehicle => vehicle.Id);
+            var vehicleRepository = new InMemoryRepository<Vehicle>();
             var vehicleService = new VehicleService(vehicleRepository);
 
-            var warehouseRepository = new InMemoryRepository<Warehouse>(warehouse => warehouse.Id);
+            var warehouseRepository = new InMemoryRepository<Warehouse>();
             var warehouseService = new WarehouseService(warehouseRepository);
 
             var jsonVehicleRepository = new JsonRepository<Vehicle>();
@@ -26,15 +26,12 @@ namespace Logistic.ConsoleClient
 
             services.Add("VehicleService", vehicleService);
             services.Add("WarehouseService", warehouseService);
-            services.Add("VehicleRepository", vehicleRepository);
-            services.Add("WarehouseRepository", warehouseRepository);
             services.Add("JsonVehicleRepository", jsonVehicleRepository);
             services.Add("XmlVehicleRepository", xmlVehicleRepository);
             services.Add("JsonWarehouseRepository", jsonWarehouseRepository);
             services.Add("XmlWarehouseRepository", xmlWarehouseRepository);
             services.Add("VehicleReportService", vehicleReportService);
             services.Add("WarehouseReportService", warehouseReportService);
-
 
             return services;
         }

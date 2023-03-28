@@ -7,17 +7,15 @@ using Logistic.ConsoleClient.Models;
 namespace Logistic.ConsoleClient.Repositories
 {
 
-    public class InMemoryRepository<TEntity> : IRepository<TEntity>
+    public class InMemoryRepository<TEntity> : IRepository<TEntity>  where TEntity : IEntity
     {
         private readonly List<TEntity> _entities = new List<TEntity>();
         private readonly Func<TEntity, object> _getIdFunc;
         private readonly IMapper _mapper;
         protected int lastId = 0;
 
-        public InMemoryRepository(Func<TEntity, object> getIdFunc)
+        public InMemoryRepository()
         {
-            _getIdFunc = getIdFunc;
-
             var config = new MapperConfiguration(cfg =>
             {
                 cfg.CreateMap<TEntity, TEntity>();
@@ -28,11 +26,7 @@ namespace Logistic.ConsoleClient.Repositories
 
         public TEntity Create(TEntity entity)
         {
-
-            if (entity is IEntity entityWithId)
-            {
-                entityWithId.Id = ++lastId;
-            }
+            entity.Id = ++lastId;
             var newEntity = _mapper.Map<TEntity>(entity);
             _entities.Add(newEntity);
             return newEntity;
@@ -46,12 +40,12 @@ namespace Logistic.ConsoleClient.Repositories
 
         public TEntity ReadById(object id)
         {
-            return _entities.Find(e => _getIdFunc(e).Equals(id));
+            return _entities.Find(e => e.Id.Equals(id));
         }
 
         public void Update(object id, TEntity entity)
         {
-            var existingEntity = _entities.FirstOrDefault(e => _getIdFunc(e).Equals(id));
+            var existingEntity = _entities.FirstOrDefault(e => e.Id.Equals(id));
             if (existingEntity != null)
             {
                 _entities.Remove(existingEntity);
@@ -61,14 +55,12 @@ namespace Logistic.ConsoleClient.Repositories
 
         public void Delete(object id)
         {
-            var entity = _entities.Find(e => _getIdFunc(e).Equals(id));
+            var entity = _entities.Find(e => e.Id.Equals(id));
             if (entity != null)
             {
                 _entities.Remove(entity);
             }
         }
     }
-
-
 }
 

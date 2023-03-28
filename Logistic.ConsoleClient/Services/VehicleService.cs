@@ -23,7 +23,7 @@ namespace Logistic.ConsoleClient.Services
 
             if (vehicle.Cargos == null)
             {
-                vehicle.Cargos = new Cargo[] { };
+                vehicle.Cargos = new List<Cargo>();
             }
 
             _repository.Create(vehicle);
@@ -58,27 +58,17 @@ namespace Logistic.ConsoleClient.Services
             var totalWeight = vehicle.Cargos.Sum(c => c.Weight);
             var totalVolume = vehicle.Cargos.Sum(c => c.Volume);
 
-            if (totalWeight + cargo.Weight > vehicle.CargoWeightLeftKg)
+            if (totalWeight + cargo.Weight > vehicle.MaxCargoWeightKg)
             {
                 throw new ArgumentException($"Cargo with weight {cargo.Weight} cannot be loaded into vehicle with id {vehicleId}. The vehicle is already at full capacity");
             }
 
-            if (totalVolume + cargo.Volume > vehicle.CargoVolumeLeft)
+            if (totalVolume + cargo.Volume > vehicle.MaxCargoVolume)
             {
                 throw new ArgumentException($"Cargo with weight {cargo.Volume} cannot be loaded into vehicle with id {vehicleId}. The vehicle has no free space");
             }
 
-            for (int i = 0; i < vehicle.Cargos.Length; i++)
-            {
-                if (vehicle.Cargos[i] == null)
-                {
-                    vehicle.Cargos[i] = cargo;
-                    break;
-                }
-            }
-            vehicle.CargoWeightLeftKg -= cargo.Weight;
-            vehicle.CargoVolumeLeft -= cargo.Volume;
-
+            vehicle.Cargos.Add(cargo);
             _repository.Update(vehicleId, vehicle);
         }
 
@@ -91,13 +81,9 @@ namespace Logistic.ConsoleClient.Services
                 throw new ArgumentException($"Cargo with id {cargoId} not found in vehicle with id {vehicleId}");
             }
 
-            vehicle.Cargos = vehicle.Cargos.Where(n => n != cargo).ToArray();
-            vehicle.CargoVolumeLeft += cargo.Volume;
-            vehicle.CargoWeightLeftKg += cargo.Weight;
+            vehicle.Cargos.Remove(cargo);
             _repository.Update(vehicleId, vehicle);
         }
     }
-
-
 }
 

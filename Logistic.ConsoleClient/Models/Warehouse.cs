@@ -27,7 +27,6 @@ namespace Logistic.ConsoleClient.Models
             }
             return $"Id: {Id}, CargoList: [{cargoListStr}]";
         }
-
     }
 }
 
