@@ -1,11 +1,9 @@
 ﻿using System;
-using Logistic.ConsoleClient;
-using Logistic.ConsoleClient.Enums;
-using Logistic.ConsoleClient.Models;
-using Logistic.ConsoleClient.Repositories;
-using Logistic.ConsoleClient.Services;
+using Logistic.Core;
+using Logistic.Core.Services;
+using Logistic.Models;
 
-namespace Logistic.ConsoleClient
+namespace Logistic.ClientApp
 {
     class Program
     {
@@ -21,12 +19,12 @@ namespace Logistic.ConsoleClient
 
             bool exit = true;
 
-            while(exit)
+            while (exit)
             {
-            Console.WriteLine("List of commands: add, get-all, load-cargo, unload-cargo, create-report, load-report, exit");
-            Console.WriteLine("Enter your command");
-            var userInput = Console.ReadLine();
-            var input = userInput.Split(' ');
+                Console.WriteLine("List of commands: add, get-all, load-cargo, unload-cargo, create-report, load-report, exit");
+                Console.WriteLine("Enter your command");
+                var userInput = Console.ReadLine();
+                var input = userInput.Split(' ');
 
                 switch (input[0].ToLower())
                 {
@@ -72,7 +70,7 @@ namespace Logistic.ConsoleClient
                 }
             }
 
-            void ExecuteAdd(string [] input)
+            void ExecuteAdd(string[] input)
             {
                 switch (input[1].ToLower())
                 {
@@ -110,164 +108,164 @@ namespace Logistic.ConsoleClient
 
             void ExecuteGet(string[] input)
             {
-                    switch (input[1].ToLower())
-                    {
-                        case "vehicle":
-                            var vehicles = vehicleService.GetAll();
-                            foreach (var vehicle in vehicles)
-                            {
-                                Console.WriteLine(vehicle);
-                            }
-                            
-                            break;
+                switch (input[1].ToLower())
+                {
+                    case "vehicle":
+                        var vehicles = vehicleService.GetAll();
+                        foreach (var vehicle in vehicles)
+                        {
+                            Console.WriteLine(vehicle);
+                        }
 
-                        case "warehouse":
-                            var warehouses = warehouseService.GetAll();
+                        break;
 
-                            foreach (var warehouse in warehouses)
-                            {
-                                Console.WriteLine(warehouse);
-                            }
+                    case "warehouse":
+                        var warehouses = warehouseService.GetAll();
 
-                            break;
+                        foreach (var warehouse in warehouses)
+                        {
+                            Console.WriteLine(warehouse);
+                        }
 
-                        default:
-                            Console.WriteLine("Incorrect entity. Please try again");
-                            break;
-                    }
+                        break;
+
+                    default:
+                        Console.WriteLine("Incorrect entity. Please try again");
+                        break;
+                }
             }
 
             void ExecuteLoad(string[] input)
             {
-                    switch (input[1].ToLower())
-                    {
-                        case "vehicle":
-                            try
-                            {
-                                int vehicleId = int.Parse(input[2]);
-                                Console.WriteLine("Please enter cargo weight");
-                                int cargoWeight = int.Parse(Console.ReadLine());
-                                Console.WriteLine("Please, enter cargo volume");
-                                double cargoVolume = double.Parse(Console.ReadLine());
+                switch (input[1].ToLower())
+                {
+                    case "vehicle":
+                        try
+                        {
+                            int vehicleId = int.Parse(input[2]);
+                            Console.WriteLine("Please enter cargo weight");
+                            int cargoWeight = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Please, enter cargo volume");
+                            double cargoVolume = double.Parse(Console.ReadLine());
 
-                                Cargo cargo = new Cargo(cargoVolume, cargoWeight);
-                                var vehicle = vehicleService.GetById(vehicleId);
-                                vehicleService.LoadCargo(cargo, vehicleId);
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine($"Error: {ex.Message}");
-                            }
+                            Cargo cargo = new Cargo(cargoVolume, cargoWeight);
+                            var vehicle = vehicleService.GetById(vehicleId);
+                            vehicleService.LoadCargo(cargo, vehicleId);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                        }
 
-                            break;
-                        case "warehouse":
-                            try
-                            {
-                                int warehouseId = int.Parse(input[2]);
-                                Console.WriteLine("Please enter cargo weight");
-                                int cargoWeight = int.Parse(Console.ReadLine());
-                                Console.WriteLine("Please, enter cargo volume");
-                                double cargoVolume = double.Parse(Console.ReadLine());
+                        break;
+                    case "warehouse":
+                        try
+                        {
+                            int warehouseId = int.Parse(input[2]);
+                            Console.WriteLine("Please enter cargo weight");
+                            int cargoWeight = int.Parse(Console.ReadLine());
+                            Console.WriteLine("Please, enter cargo volume");
+                            double cargoVolume = double.Parse(Console.ReadLine());
 
-                                Cargo cargo = new Cargo(cargoVolume, cargoWeight);
-                                warehouseService.LoadCargo(cargo, warehouseId);
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine($"Error: {ex.Message}");
-                            }
+                            Cargo cargo = new Cargo(cargoVolume, cargoWeight);
+                            warehouseService.LoadCargo(cargo, warehouseId);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                        }
 
-                            break;
+                        break;
 
-                        default:
-                            Console.WriteLine("You can load cargo to vehicle or warehouse only. Try again");
-                            break;
-                    }
+                    default:
+                        Console.WriteLine("You can load cargo to vehicle or warehouse only. Try again");
+                        break;
+                }
             }
 
             void ExecuteUnload(string[] input)
             {
-                    switch (input[1].ToLower())
-                    {
-                        case "vehicle":
-                            try
-                            {
-                                int vehicleId = int.Parse(input[2]);
-                                Console.WriteLine("Enter cargo id");
-                                Guid cargoId = Guid.Parse(Console.ReadLine());
-                                vehicleService.UnloadCargo(cargoId, vehicleId);
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine($"Error: {ex.Message}");
-                            }
+                switch (input[1].ToLower())
+                {
+                    case "vehicle":
+                        try
+                        {
+                            int vehicleId = int.Parse(input[2]);
+                            Console.WriteLine("Enter cargo id");
+                            Guid cargoId = Guid.Parse(Console.ReadLine());
+                            vehicleService.UnloadCargo(cargoId, vehicleId);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                        }
 
-                            break;
+                        break;
 
-                        case "warehouse":
-                            try
-                            {
-                                int warehouseId = int.Parse(input[2]);
-                                Console.WriteLine("Enter cargo id");
-                                Guid cargoId = Guid.Parse(Console.ReadLine());
-                                warehouseService.UnloadCargo(cargoId, warehouseId);
-                            }
-                            catch (Exception ex)
-                            {
-                                Console.WriteLine($"Error: {ex.Message}");
-                            }
+                    case "warehouse":
+                        try
+                        {
+                            int warehouseId = int.Parse(input[2]);
+                            Console.WriteLine("Enter cargo id");
+                            Guid cargoId = Guid.Parse(Console.ReadLine());
+                            warehouseService.UnloadCargo(cargoId, warehouseId);
+                        }
+                        catch (Exception ex)
+                        {
+                            Console.WriteLine($"Error: {ex.Message}");
+                        }
 
-                            break;
+                        break;
 
-                        default:
-                            Console.WriteLine("You can unload cargo from vehicle or warehouse only. Try again");
-                            break;
-                    }
+                    default:
+                        Console.WriteLine("You can unload cargo from vehicle or warehouse only. Try again");
+                        break;
+                }
 
             }
 
             void ExecuteCreate(string[] input)
             {
-                    switch (input[1].ToLower())
-                    {
-                        case "vehicle":
+                switch (input[1].ToLower())
+                {
+                    case "vehicle":
 
-                            try
-                            {
-
-                                ReportType reportTypeVehicle = (ReportType)Enum.Parse(typeof(ReportType), input[2], ignoreCase: true);
-
-                                List<Vehicle> vehicles = vehicleService.GetAll().ToList();
-                                vehicleReportService.CreateReport(vehicles, reportTypeVehicle);
-                            }
-
-                            catch (ArgumentException ex)
-                            {
-                                Console.WriteLine($"Invalid report type: {input[2]}. Please specify either 'json' or 'xml'.");
-                            }
-
-                        break;
-
-                        case "warehouse":
-                            try
-                            {
+                        try
+                        {
 
                             ReportType reportTypeVehicle = (ReportType)Enum.Parse(typeof(ReportType), input[2], ignoreCase: true);
 
                             List<Vehicle> vehicles = vehicleService.GetAll().ToList();
                             vehicleReportService.CreateReport(vehicles, reportTypeVehicle);
-                            }
+                        }
 
-                            catch (ArgumentException ex)
-                            {
-                                Console.WriteLine($"Invalid report type: {input[2]}. Please specify either 'json' or 'xml'.");
-                            }
+                        catch (ArgumentException ex)
+                        {
+                            Console.WriteLine($"Invalid report type: {input[2]}. Please specify either 'json' or 'xml'.");
+                        }
+
                         break;
 
-                        default:
-                            Console.WriteLine("Please, specify the correct entity to generate report for");
-                            break;
-                    }
+                    case "warehouse":
+                        try
+                        {
+
+                            ReportType reportTypeVehicle = (ReportType)Enum.Parse(typeof(ReportType), input[2], ignoreCase: true);
+
+                            List<Vehicle> vehicles = vehicleService.GetAll().ToList();
+                            vehicleReportService.CreateReport(vehicles, reportTypeVehicle);
+                        }
+
+                        catch (ArgumentException ex)
+                        {
+                            Console.WriteLine($"Invalid report type: {input[2]}. Please specify either 'json' or 'xml'.");
+                        }
+                        break;
+
+                    default:
+                        Console.WriteLine("Please, specify the correct entity to generate report for");
+                        break;
+                }
             }
         }
     }

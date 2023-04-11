@@ -1,9 +1,10 @@
 ﻿using System.Collections.Generic;
-using Logistic.ConsoleClient.Models;
-using Logistic.ConsoleClient.Repositories;
-using Logistic.ConsoleClient.Services;
+using Logistic.Core.Services;
+using Logistic.Core;
+using Logistic.Models;
+using Logistic.DAL;
 
-namespace Logistic.ConsoleClient
+namespace Logistic.ClientApp
 {
     public class AppInfrastructureBuilder
     {
