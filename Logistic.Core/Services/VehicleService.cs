@@ -1,14 +1,13 @@
 ﻿using Logistic.Models;
 using Logistic.DAL;
 
-
 namespace Logistic.Core.Services
 {
     public class VehicleService
     {
-        private readonly InMemoryRepository<Vehicle> _repository;
+        private readonly IRepository<Vehicle> _repository;
 
-        public VehicleService(InMemoryRepository<Vehicle> repository)
+        public VehicleService(IRepository<Vehicle> repository)
         {
             _repository = repository;
         }
@@ -85,4 +84,3 @@ namespace Logistic.Core.Services
         }
     }
 }
-

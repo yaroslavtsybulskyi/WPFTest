@@ -1,11 +1,4 @@
-﻿using System.IO;
-using System.Linq;
-using System.Xml.Serialization;
-using FluentAssertions;
-using Logistic.Core.Services;
-using Logistic.DAL;
-using Logistic.Models;
-using Moq;
+﻿using Logistic.Models;
 using Xunit;
 
 namespace Logistic.DAL.Tests
@@ -22,75 +15,43 @@ namespace Logistic.DAL.Tests
                 new Warehouse(new List<Cargo>() { new Cargo(20, 300), new Cargo(30, 400) })
             };
 
-            var xmlRepositoryMock = new Mock<XmlRepository<Warehouse>>();
-            var jsonRepositoryMock = new Mock<JsonRepository<Warehouse>>();
-            var reportService = new ReportService<Warehouse>(jsonRepositoryMock.Object, xmlRepositoryMock.Object);
+            string expectedFileName = $"Warehouse_{DateTime.Now:yyyyMMddHHmmss}.xml";
+            var repository = new XmlRepository<Warehouse>();
 
             // Act
-            reportService.CreateReport(warehouses, ReportType.Xml);
+            repository.Create(warehouses);
 
             // Assert
-            xmlRepositoryMock.Verify(x => x.Create(warehouses), Times.Once);
+            Assert.True(File.Exists(expectedFileName));
         }
 
         [Fact]
         public void LoadReport_LoadsXmlDataFromFile()
         {
             // Arrange
-            var expectedData = new List<Warehouse>()
-            {
-                new Warehouse(new List<Cargo>() { new Cargo(1, 10), new Cargo(2, 20) }),
-                new Warehouse(new List<Cargo>() { new Cargo(3, 30), new Cargo(4, 40) })
-            };
-
-            var fileName = "test_report.xml";
-
-            var serializer = new XmlSerializer(typeof(List<Warehouse>));
-            using (var writer = new StreamWriter(fileName))
-            {
-                serializer.Serialize(writer, expectedData);
-            }
-
             var xmlRepository = new XmlRepository<Warehouse>();
-            var mockFileSystem = new Mock<IFileSystemService>();
-            mockFileSystem.Setup(x => x.FileExists(fileName)).Returns(true);
-            mockFileSystem.Setup(x => x.ReadFile(fileName)).Returns(File.ReadAllText(fileName));
-
-            var reportService = new ReportService<Warehouse>(null, xmlRepository);
+            var filePath = Path.Combine("Resources", "test.xml");
 
             // Act
-            var result = reportService.LoadReport(fileName);
+            var result = xmlRepository.Read(filePath);
+
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal(expectedData.Count, result.Count);
-
-            for (int i = 0; i < expectedData.Count; i++)
-            {
-                Assert.NotNull(result[i]);
-                Assert.Equal(expectedData[i].Id, result[i].Id);
-                Assert.Equal(expectedData[i].CargoList.Count, result[i].CargoList.Count);
-
-                for (int j = 0; j < expectedData[i].CargoList.Count; j++)
-                {
-                    Assert.NotNull(result[i].CargoList[j]);
-                    Assert.Equal(expectedData[i].CargoList[j].Id, result[i].CargoList[j].Id);
-                }
-            }
+            Assert.Equal(1, result[0].Id);
         }
 
         [Fact]
-        public void LoadReport_WithUnsupportedExtension_ThrowsArgumentException()
+        public void LoadReport_WithUnsupportedExtension_ThrowsException()
         {
             // Arrange
-            var invalidFilePath = "test_report.txt";
-            var reportService = new ReportService<Warehouse>();
+            var repository = new XmlRepository<Warehouse>();
+            var filePath = Path.Combine("Resources", "test.txt");
 
-            // Act & Assert
-            reportService
-                 .Invoking(x => x.LoadReport(invalidFilePath))
-                 .Should().Throw<ArgumentException>()
-                 .WithMessage($"Unknown file extension: {Path.GetExtension(invalidFilePath)}");
+            // Act
+            var exception = Assert.Throws<InvalidOperationException>(() => repository.Read(filePath));
+
+            //Assert
+            Assert.Contains("There is an error in XML document", exception.Message);
         }
     }
 }

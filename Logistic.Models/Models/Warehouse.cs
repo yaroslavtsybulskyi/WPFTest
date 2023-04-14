@@ -1,9 +1,15 @@
-﻿namespace Logistic.Models
+﻿using System.Xml.Serialization;
+
+namespace Logistic.Models
 {
+    [XmlRoot("Warehouse", Namespace = "")]
     public class Warehouse : IEntity
     {
-
+        [XmlElement("Id")]
         public int Id { get; set; }
+
+        [XmlArray("CargoList")]
+        [XmlArrayItem("Cargo")]
         public List<Cargo>? CargoList { get; set; }
 
         public Warehouse()
@@ -13,10 +19,9 @@
 
         public Warehouse(List<Cargo> cargos)
         {
-
             this.CargoList = cargos;
-
         }
+
         public override string ToString()
         {
             string cargoListStr = "";

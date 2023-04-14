@@ -3,147 +3,142 @@ using AutoMapper;
 using FluentAssertions;
 using Logistic.Models;
 using Moq;
+using Xunit;
 
-namespace Logistic.DAL.Tests;
-
-public class InMemoryRepositoryTests
+namespace Logistic.DAL.Tests
 {
-    [Fact]
-    public void Create_CreatesNewEntityInMemory()
+    public class InMemoryRepositoryTests
     {
-        // Arrange
-        var mockMapper = new Mock<IMapper>();
-        mockMapper.Setup(x => x.Map<Warehouse>(It.IsAny<Warehouse>()))
-                  .Returns<Warehouse>(x => x);
-
-        var entity = new Warehouse(new List<Cargo>() { new Cargo(1, 10), new Cargo(2, 20) });
-
-        var repository = new InMemoryRepository<Warehouse>();
-
-        // Act
-        var result = repository.Create(entity);
-
-        // Assert
-        result.Should().NotBeNull();
-        result.Id.Should().NotBe(default(int));
-        result.CargoList.Should().NotBeNullOrEmpty();
-        result.CargoList.Count.Should().Be(2);
-
-        repository.Should().NotBeNull();
-        repository.GetType().GetField("_entities", BindingFlags.NonPublic | BindingFlags.Instance)
-                  .GetValue(repository).As<List<Warehouse>>()
-                  .Should().NotBeNullOrEmpty()
-                  .And.HaveCount(1)
-                  .And.Contain(result);
-    }
-
-    [Fact]
-    public void ReadAll_ReturnsAllEntitiesFromMemory()
-    {
-        // Arrange
-        var mockMapper = new Mock<IMapper>();
-        mockMapper.Setup(x => x.Map<IEnumerable<Warehouse>>(It.IsAny<IEnumerable<Warehouse>>()))
-                  .Returns<IEnumerable<Warehouse>>(x => x);
-
-        var entities = new List<Warehouse>
+        [Fact]
+        public void Create_CreatesNewEntityInMemory()
         {
-        new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) }),
-        new Warehouse(new List<Cargo> { new Cargo(3, 30), new Cargo(4, 40) })
-        };
+            // Arrange
+            var mockMapper = new Mock<IMapper>();
+            mockMapper.Setup(x => x.Map<Warehouse>(It.IsAny<Warehouse>()))
+                      .Returns<Warehouse>(x => x);
 
-        var repository = new InMemoryRepository<Warehouse>();
-        var field = repository.GetType().GetField("_entities", BindingFlags.NonPublic | BindingFlags.Instance);
-        field.SetValue(repository, entities);
+            var entity = new Warehouse(new List<Cargo>() { new Cargo(1, 10), new Cargo(2, 20) });
 
-        // Act
-        var result = repository.ReadAll();
+            var repository = new InMemoryRepository<Warehouse>();
 
-        // Assert
-        result.Should().NotBeNull();
-        result.Should().HaveSameCount(entities);
-        result.Should().BeEquivalentTo(entities);
-    }
+            // Act
+            var createdEntity = repository.Create(entity);
+            var retrievedEntity = repository.ReadById(createdEntity.Id);
 
-    [Fact]
-    public void ReadById_ReturnsEntityById()
-    {
-        // Arrange
-        var mockMapper = new Mock<IMapper>();
-        mockMapper.Setup(x => x.Map<Warehouse>(It.IsAny<Warehouse>()))
-                  .Returns<Warehouse>(x => x);
+            // Assert
+            retrievedEntity.Should().NotBeNull();
+            retrievedEntity.Id.Should().Be(createdEntity.Id);
+            retrievedEntity.CargoList.Should().BeEquivalentTo(createdEntity.CargoList);
+        }
 
-        var entity1 = new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) });
-        var entity2 = new Warehouse(new List<Cargo> { new Cargo(3, 30), new Cargo(4, 40) });
+        [Fact]
+        public void ReadAll_ReturnsAllEntitiesFromMemory()
+        {
+            // Arrange
+            var mockMapper = new Mock<IMapper>();
+            mockMapper.Setup(x => x.Map<IEnumerable<Warehouse>>(It.IsAny<IEnumerable<Warehouse>>()))
+                      .Returns<IEnumerable<Warehouse>>(x => x);
 
-        var repository = new InMemoryRepository<Warehouse>();
-        repository.Create(entity1);
-        repository.Create(entity2);
+            var entities = new List<Warehouse>
+            {
+            new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) }),
+            new Warehouse(new List<Cargo> { new Cargo(3, 30), new Cargo(4, 40) })
+            };
 
-        // Act
-        var result1 = repository.ReadById(entity1.Id);
-        var result2 = repository.ReadById(entity2.Id);
-        var result3 = repository.ReadById(-1); 
+            var repository = new InMemoryRepository<Warehouse>();
+            var field = repository.GetType().GetField("_entities", BindingFlags.NonPublic | BindingFlags.Instance);
+            field.SetValue(repository, entities);
 
-        // Assert
-        result1.Should().NotBeNull();
-        result1.Should().BeEquivalentTo(entity1);
+            // Act
+            var result = repository.ReadAll();
 
-        result2.Should().NotBeNull();
-        result2.Should().BeEquivalentTo(entity2);
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().HaveSameCount(entities);
+            result.Should().BeEquivalentTo(entities);
+        }
 
-        result3.Should().BeNull();
-    }
+        [Fact]
+        public void ReadById_ReturnsEntityById()
+        {
+            // Arrange
+            var mockMapper = new Mock<IMapper>();
+            mockMapper.Setup(x => x.Map<Warehouse>(It.IsAny<Warehouse>()))
+                      .Returns<Warehouse>(x => x);
 
-    [Fact]
-    public void Update_UpdatesExistingEntity()
-    {
-        // Arrange
-        var mockMapper = new Mock<IMapper>();
-        mockMapper.Setup(x => x.Map<Warehouse>(It.IsAny<Warehouse>()))
-                  .Returns<Warehouse>(x => x);
+            var entity1 = new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) });
+            var entity2 = new Warehouse(new List<Cargo> { new Cargo(3, 30), new Cargo(4, 40) });
 
-        var entity1 = new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) });
-        var entity2 = new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) });
+            var repository = new InMemoryRepository<Warehouse>();
+            repository.Create(entity1);
+            repository.Create(entity2);
 
-        var repository = new InMemoryRepository<Warehouse>();
-        repository.Create(entity1);
+            // Act
+            var result1 = repository.ReadById(entity1.Id);
+            var result2 = repository.ReadById(entity2.Id);
+            var result3 = repository.ReadById(-1);
 
-        // Act
-        entity1.CargoList[0].Volume = 100;
-        repository.Update(entity1.Id, entity1);
+            // Assert
+            result1.Should().NotBeNull();
+            result1.Should().BeEquivalentTo(entity1);
 
-        var result = repository.ReadById(entity1.Id);
+            result2.Should().NotBeNull();
+            result2.Should().BeEquivalentTo(entity2);
 
-        // Assert
-        result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(entity1);
-        result.Should().NotBeEquivalentTo(entity2);
-    }
+            result3.Should().BeNull();
+        }
 
-    [Fact]
-    public void Delete_DeletesExistingEntity()
-    {
-        // Arrange
-        var mockMapper = new Mock<IMapper>();
-        mockMapper.Setup(x => x.Map<Warehouse>(It.IsAny<Warehouse>()))
-                  .Returns<Warehouse>(x => x);
+        [Fact]
+        public void Update_UpdatesExistingEntity()
+        {
+            // Arrange
+            var mockMapper = new Mock<IMapper>();
+            mockMapper.Setup(x => x.Map<Warehouse>(It.IsAny<Warehouse>()))
+                      .Returns<Warehouse>(x => x);
 
-        var entity1 = new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) });
-        var entity2 = new Warehouse(new List<Cargo> { new Cargo(3, 30), new Cargo(4, 40) });
+            var entity1 = new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) });
+            var entity2 = new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) });
 
-        var repository = new InMemoryRepository<Warehouse>();
-        repository.Create(entity1);
-        repository.Create(entity2);
+            var repository = new InMemoryRepository<Warehouse>();
+            repository.Create(entity1);
 
-        // Act
-        repository.Delete(entity1.Id);
+            // Act
+            entity1.CargoList[0].Volume = 100;
+            repository.Update(entity1.Id, entity1);
 
-        var result1 = repository.ReadById(entity1.Id);
-        var result2 = repository.ReadById(entity2.Id);
+            var result = repository.ReadById(entity1.Id);
 
-        // Assert
-        result1.Should().BeNull();
-        result2.Should().NotBeNull();
-        result2.Should().BeEquivalentTo(entity2);
+            // Assert
+            result.Should().NotBeNull();
+            result.Should().BeEquivalentTo(entity1);
+            result.Should().NotBeEquivalentTo(entity2);
+        }
+
+        [Fact]
+        public void Delete_DeletesExistingEntity()
+        {
+            // Arrange
+            var mockMapper = new Mock<IMapper>();
+            mockMapper.Setup(x => x.Map<Warehouse>(It.IsAny<Warehouse>()))
+                      .Returns<Warehouse>(x => x);
+
+            var entity1 = new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) });
+            var entity2 = new Warehouse(new List<Cargo> { new Cargo(3, 30), new Cargo(4, 40) });
+
+            var repository = new InMemoryRepository<Warehouse>();
+            repository.Create(entity1);
+            repository.Create(entity2);
+
+            // Act
+            repository.Delete(entity1.Id);
+
+            var result1 = repository.ReadById(entity1.Id);
+            var result2 = repository.ReadById(entity2.Id);
+
+            // Assert
+            result1.Should().BeNull();
+            result2.Should().NotBeNull();
+            result2.Should().BeEquivalentTo(entity2);
+        }
     }
 }

@@ -1,10 +1,8 @@
-﻿using AutoFixture;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Logistic.DAL;
 using Logistic.Models;
 using Moq;
 using NSubstitute;
-using System;
 using Xunit;
 
 namespace Logistic.Core.Services.Tests
@@ -12,11 +10,11 @@ namespace Logistic.Core.Services.Tests
     public class VehicleServiceTests
     {
         private readonly VehicleService _service;
-        private readonly InMemoryRepository<Vehicle> _repository;
+        private readonly IRepository<Vehicle> _repository;
 
         public VehicleServiceTests()
         {
-            _repository = Substitute.For<InMemoryRepository<Vehicle>>();
+            _repository = Substitute.For<IRepository<Vehicle>>();
             _service = new VehicleService(_repository);
         }
 
@@ -92,7 +90,7 @@ namespace Logistic.Core.Services.Tests
                 new Vehicle(VehicleType.Car, 40, 45),
                 new Vehicle(VehicleType.Plane, 50, 60),
                 new Vehicle(VehicleType.Train, 30, 35),
-             };
+            };
 
             var repository = new InMemoryRepository<Vehicle>();
             repository.Create(vehicles[0]);

@@ -158,6 +158,7 @@ namespace Logistic.ClientApp
                         }
 
                         break;
+
                     case "warehouse":
                         try
                         {
@@ -221,7 +222,6 @@ namespace Logistic.ClientApp
                         Console.WriteLine("You can unload cargo from vehicle or warehouse only. Try again");
                         break;
                 }
-
             }
 
             void ExecuteCreate(string[] input)

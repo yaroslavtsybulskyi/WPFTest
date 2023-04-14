@@ -1,0 +1,20 @@
+[
+  {
+    "Id": 1,
+    "CargoList": [
+      {
+        "Volume": 1.0,
+        "Weight": 10,
+        "Code": "ABC",
+        "Id": "2e4ca033-8446-4c3b-9cd9-8db0d34f88b2",
+        "Invoice": {
+          "Id": "9aee2559-bcf7-478c-aa80-93a1f06c680f",
+          "RecipientAddress": "Street Name 0",
+          "SenderAddress": "Street Name 1",
+          "RecipientPhoneNumber": "123456789",
+          "SenderPhoneNumber": "123456789"
+        }
+      }
+    ]
+  }
+]

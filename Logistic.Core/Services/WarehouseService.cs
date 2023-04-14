@@ -7,9 +7,9 @@ namespace Logistic.Core.Services
 {
     public class WarehouseService
     {
-        private readonly InMemoryRepository<Warehouse> _repository;
+        private readonly IRepository<Warehouse> _repository;
 
-        public WarehouseService(InMemoryRepository<Warehouse> repository)
+        public WarehouseService(IRepository<Warehouse> repository)
         {
             _repository = repository;
         }
@@ -55,4 +55,3 @@ namespace Logistic.Core.Services
         }
     }
 }
-

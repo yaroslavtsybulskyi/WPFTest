@@ -1,15 +1,12 @@
 ﻿using AutoFixture;
 using FluentAssertions;
-using Logistic.Core.Services;
 using Logistic.DAL;
 using Logistic.Models;
 using Moq;
-using NSubstitute;
 using Xunit;
 
 namespace Logistic.Core.Services.Tests
 {
-
     public class WarehouseServiceTests
     {
         [Fact]

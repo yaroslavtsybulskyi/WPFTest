@@ -10,8 +10,8 @@ namespace Logistic.Core.Services
 {
     public class ReportService<T>
     {
-        private readonly JsonRepository<T> _jsonRepository;
-        private readonly XmlRepository<T> _xmlRepository;
+        private readonly IReportRepository<T> _jsonRepository;
+        private readonly IReportRepository<T> _xmlRepository;
 
         public ReportService()
         {
@@ -19,7 +19,7 @@ namespace Logistic.Core.Services
             _xmlRepository = new XmlRepository<T>();
         }
 
-        public ReportService(JsonRepository<T> jsonRepository, XmlRepository<T> xmlRepository)
+        public ReportService(IReportRepository<T> jsonRepository, IReportRepository<T> xmlRepository)
         {
             _jsonRepository = jsonRepository;
             _xmlRepository = xmlRepository;

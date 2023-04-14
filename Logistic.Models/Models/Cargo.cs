@@ -1,11 +1,19 @@
-﻿namespace Logistic.Models
+﻿using System.Xml.Serialization;
+
+namespace Logistic.Models
 {
-    public class Cargo
+	public class Cargo
 	{
+		[XmlElement("Volume")]
 		public double Volume { get; set; }
+		[XmlElement("Weight")]
 		public int Weight { get; set; }
+		[XmlElement("Code")]
 		public string Code { get; set; }
+		[XmlElement("Id")]
 		public Guid Id { get; set; }
+
+		[XmlElement("Invoice")]
 		public Invoice Invoice { get; set; }
 
 		public Cargo()
@@ -26,7 +34,16 @@
 			this.Invoice = new Invoice();
         }
 
-		public Cargo(double volume, int weight)
+        public Cargo(double volume, int weight, string code, Invoice invoice)
+        {
+            this.Volume = volume;
+            this.Weight = weight;
+            this.Code = code;
+            this.Id = Guid.NewGuid();
+            this.Invoice = invoice;
+        }
+
+        public Cargo(double volume, int weight)
 		{
             this.Volume = volume;
             this.Weight = weight;

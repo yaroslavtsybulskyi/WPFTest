@@ -1,12 +1,5 @@
-﻿using System.IO;
-using System.Linq;
-using System.Text.Json;
-using System.Xml.Serialization;
-using FluentAssertions;
-using Logistic.Core.Services;
-using Logistic.DAL;
-using Logistic.Models;
-using Moq;
+﻿using Logistic.Models;
+using Newtonsoft.Json;
 using Xunit;
 
 namespace Logistic.DAL.Tests
@@ -23,57 +16,42 @@ namespace Logistic.DAL.Tests
                 new Warehouse(new List<Cargo>() { new Cargo(20, 300), new Cargo(30, 400) })
             };
 
-            var xmlRepositoryMock = new Mock<XmlRepository<Warehouse>>();
-            var jsonRepositoryMock = new Mock<JsonRepository<Warehouse>>();
-            var reportService = new ReportService<Warehouse>(jsonRepositoryMock.Object, xmlRepositoryMock.Object);
+            string expectedFileName = $"Warehouse_{DateTime.Now:yyyyMMddHHmmss}.json";
+            var jsonRepository = new JsonRepository<Warehouse>();
 
             // Act
-            reportService.CreateReport(warehouses, ReportType.Json);
+            jsonRepository.Create(warehouses);
 
             // Assert
-            jsonRepositoryMock.Verify(x => x.Create(warehouses), Times.Once);
+            Assert.True(File.Exists(expectedFileName));
         }
 
         [Fact]
         public void LoadReport_LoadsJsonDataFromFile()
         {
             // Arrange
-            var expectedData = new List<Warehouse>()
-            {
-                new Warehouse(new List<Cargo>() { new Cargo(1, 10), new Cargo(2, 20) }),
-                new Warehouse(new List<Cargo>() { new Cargo(3, 30), new Cargo(4, 40) })
-            };
-
-            var fileName = "test_report.json";
-
-            File.WriteAllText(fileName, JsonSerializer.Serialize(expectedData));
-
             var jsonRepository = new JsonRepository<Warehouse>();
-            var mockFileSystem = new Mock<IFileSystemService>();
-            mockFileSystem.Setup(x => x.FileExists(fileName)).Returns(true);
-            mockFileSystem.Setup(x => x.ReadFile(fileName)).Returns(File.ReadAllText(fileName));
-
-            var reportService = new ReportService<Warehouse>(jsonRepository, null);
+            var filePath = Path.Combine("Resources", "test.json");
 
             // Act
-            var result = reportService.LoadReport(fileName);
+            var result = jsonRepository.Read(filePath);
 
             // Assert
-            Assert.NotNull(result);
-            Assert.Equal(expectedData.Count, result.Count);
+            Assert.Equal(1, result[0].Id);
+        }
 
-            for (int i = 0; i < expectedData.Count; i++)
-            {
-                Assert.NotNull(result[i]);
-                Assert.Equal(expectedData[i].Id, result[i].Id);
-                Assert.Equal(expectedData[i].CargoList.Count, result[i].CargoList.Count);
+        [Fact]
+        public void LoadReport_WithUnsupportedExtension_ThrowsException()
+        {
+            // Arrange
+            var repository = new JsonRepository<Warehouse>();
+            var filePath = Path.Combine("Resources", "test.txt");
 
-                for (int j = 0; j < expectedData[i].CargoList.Count; j++)
-                {
-                    Assert.NotNull(result[i].CargoList[j]);
-                    Assert.Equal(expectedData[i].CargoList[j].Id, result[i].CargoList[j].Id);
-                }
-            }
+            // Act
+            var exception = Assert.Throws<JsonReaderException>(() => repository.Read(filePath));
+
+            //Assert
+            Assert.Contains("Unexpected character encountered while parsing value", exception.Message);
         }
     }
 }

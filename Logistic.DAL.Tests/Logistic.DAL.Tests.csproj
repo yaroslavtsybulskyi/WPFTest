@@ -23,11 +23,40 @@
     <PackageReference Include="Moq" Version="4.18.4" />
     <PackageReference Include="FluentAssertions" Version="6.10.0" />
     <PackageReference Include="AutoFixture" Version="4.18.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\Logistic.Models\Logistic.Models.csproj" />
     <ProjectReference Include="..\Logistic.DAL\Logistic.DAL.csproj" />
     <ProjectReference Include="..\Logistic.Core\Logistic.Core.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Remove="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Update="Resources\Test_Warehouse.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\test.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\test.txt">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\test.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\untitled.xml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="XmlRepositoryTest.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
   </ItemGroup>
 </Project>
