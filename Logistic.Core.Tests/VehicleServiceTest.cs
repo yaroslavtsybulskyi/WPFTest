@@ -35,7 +35,7 @@ namespace Logistic.Core.Services.Tests
         public void Create_WhenVehicleIsValid_CreatesAndReturnsVehicle()
         {
             // Arrange
-            var repositoryMock = new Mock<InMemoryRepository<Vehicle>>();
+            var repositoryMock = new Mock<IRepository<Vehicle>>();
             var service = new VehicleService(repositoryMock.Object);
             var vehicle = new Vehicle(VehicleType.Car, 40, 45);
 
@@ -55,8 +55,8 @@ namespace Logistic.Core.Services.Tests
             // Arrange
             var vehicleId = 1;
             var vehicle = new Vehicle(VehicleType.Car, 40, 45) { Id = vehicleId };
-            var repository = new InMemoryRepository<Vehicle>();
-            repository.Create(vehicle);
+            var repository = Substitute.For<IRepository<Vehicle>>();
+            repository.ReadById(vehicleId).Returns(vehicle);
             var service = new VehicleService(repository);
 
             // Act
@@ -70,7 +70,7 @@ namespace Logistic.Core.Services.Tests
         public void GetById_WhenVehicleDoesNotExist_ThrowsArgumentException()
         {
             // Arrange
-            var repository = new Mock<InMemoryRepository<Vehicle>>();
+            var repository = new Mock<IRepository<Vehicle>>();
             var service = new VehicleService(repository.Object);
             var vehicleId = 123;
 
@@ -92,10 +92,12 @@ namespace Logistic.Core.Services.Tests
                 new Vehicle(VehicleType.Train, 30, 35),
             };
 
-            var repository = new InMemoryRepository<Vehicle>();
-            repository.Create(vehicles[0]);
-            repository.Create(vehicles[1]);
-            repository.Create(vehicles[2]);
+            var repository = Substitute.For<IRepository<Vehicle>>();
+
+            repository.Create(vehicles[0]).Returns(vehicles[0]);
+            repository.Create(vehicles[1]).Returns(vehicles[1]);
+            repository.Create(vehicles[2]).Returns(vehicles[2]);
+            repository.ReadAll().Returns(vehicles);
             var service = new VehicleService(repository);
 
             // Act
@@ -109,7 +111,7 @@ namespace Logistic.Core.Services.Tests
         public void Delete_WhenVehicleExists_DeletesVehicle()
         {
             // Arrange
-            var repository = Substitute.For<InMemoryRepository<Vehicle>>();
+            var repository = Substitute.For<IRepository<Vehicle>>();
             var service = new VehicleService(repository);
             var vehicleId = 1;
             var vehicle = new Vehicle(VehicleType.Car, 40, 45) { Id = vehicleId };
@@ -128,7 +130,7 @@ namespace Logistic.Core.Services.Tests
             // Arrange
             var vehicle = new Vehicle(VehicleType.Car, 1000, 50);
             var cargo = new Cargo(25, 1200);
-            var repositoryMock = new Mock<InMemoryRepository<Vehicle>>();
+            var repositoryMock = new Mock<IRepository<Vehicle>>();
             var service = new VehicleService(repositoryMock.Object);
             repositoryMock.Setup(x => x.ReadById(It.IsAny<int>())).Returns(vehicle);
 
@@ -145,10 +147,10 @@ namespace Logistic.Core.Services.Tests
         {
             // Arrange
             var vehicle = new Vehicle(VehicleType.Car, 500, 10);
-            var repository = new InMemoryRepository<Vehicle>();
+            var repository = Substitute.For<IRepository<Vehicle>>();
             repository.Create(vehicle);
             var service = new VehicleService(repository);
-            var cargo = new Cargo(15, 100); // volume exceeds vehicle capacity
+            var cargo = new Cargo(15, 100); 
             var vehicleId = vehicle.Id;
 
             // Act and assert
@@ -161,8 +163,8 @@ namespace Logistic.Core.Services.Tests
             // Arrange
             var vehicle = new Vehicle(VehicleType.Car, 1000, 5.5);
             var cargo = new Cargo(1.0, 500);
-            var repository = new InMemoryRepository<Vehicle>();
-            repository.Create(vehicle);
+            var repository = Substitute.For<IRepository<Vehicle>>();
+            repository.ReadById(vehicle.Id).Returns(vehicle);
             var service = new VehicleService(repository);
 
             // Act
@@ -171,6 +173,7 @@ namespace Logistic.Core.Services.Tests
             // Assert
             var loadedVehicle = service.GetById(vehicle.Id);
             Assert.Contains(cargo, loadedVehicle.Cargos);
+            repository.Received(1).Update(vehicle.Id, loadedVehicle);
         }
 
         [Fact]
@@ -182,8 +185,8 @@ namespace Logistic.Core.Services.Tests
             var vehicle = new Vehicle(VehicleType.Car, 500, 10);
             vehicle.Cargos.Add(cargo);
 
-            var repository = new InMemoryRepository<Vehicle>();
-            repository.Create(vehicle);
+            var repository = Substitute.For<IRepository<Vehicle>>();
+            repository.ReadById(vehicle.Id).Returns(vehicle);
 
             var service = new VehicleService(repository);
 
@@ -193,6 +196,7 @@ namespace Logistic.Core.Services.Tests
             // Assert
             var updatedVehicle = service.GetById(vehicle.Id);
             Assert.DoesNotContain(cargo, updatedVehicle.Cargos);
+            repository.Received(1).Update(vehicle.Id, updatedVehicle);
         }
     }
 }

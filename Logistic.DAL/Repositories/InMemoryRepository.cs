@@ -23,7 +23,7 @@ namespace Logistic.DAL
             _mapper = config.CreateMapper();
         }
 
-        public virtual TEntity Create(TEntity entity)
+        public TEntity Create(TEntity entity)
         {
             entity.Id = ++lastId;
             var newEntity = _mapper.Map<TEntity>(entity);
@@ -31,18 +31,18 @@ namespace Logistic.DAL
             return newEntity;
         }
 
-        public virtual IEnumerable<TEntity> ReadAll()
+        public IEnumerable<TEntity> ReadAll()
         {
             var entitiesToReturn = _mapper.Map<IEnumerable<TEntity>, IEnumerable<TEntity>>(_entities);
             return entitiesToReturn;
         }
 
-        public virtual TEntity ReadById(object id)
+        public TEntity ReadById(object id)
         {
             return _entities.Find(e => e.Id.Equals(id));
         }
 
-        public virtual void Update(object id, TEntity entity)
+        public void Update(object id, TEntity entity)
         {
             var existingEntity = _entities.FirstOrDefault(e => e.Id.Equals(id));
             if (existingEntity != null)
@@ -52,7 +52,7 @@ namespace Logistic.DAL
             }
         }
 
-        public virtual void Delete(object id)
+        public void Delete(object id)
         {
             var entity = _entities.Find(e => e.Id.Equals(id));
             if (entity != null)

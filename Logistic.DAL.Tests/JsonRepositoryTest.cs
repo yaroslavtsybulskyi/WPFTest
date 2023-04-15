@@ -38,6 +38,19 @@ namespace Logistic.DAL.Tests
 
             // Assert
             Assert.Equal(1, result[0].Id);
+            Assert.NotNull(result);
+            Assert.Single(result);
+            Assert.Equal(1, result[0].Id);
+            Assert.NotNull(result[0].CargoList);
+            Assert.Single(result[0].CargoList);
+            Assert.Equal(1, result[0].CargoList[0].Volume);
+            Assert.Equal(10, result[0].CargoList[0].Weight);
+            Assert.Equal("ABC", result[0].CargoList[0].Code);
+            Assert.NotNull(result[0].CargoList[0].Invoice);
+            Assert.Equal("Street Name 0", result[0].CargoList[0].Invoice.RecipientAddress);
+            Assert.Equal("Street Name 1", result[0].CargoList[0].Invoice.SenderAddress);
+            Assert.Equal("123456789", result[0].CargoList[0].Invoice.RecipientPhoneNumber);
+            Assert.Equal("123456789", result[0].CargoList[0].Invoice.SenderPhoneNumber);
         }
 
         [Fact]
