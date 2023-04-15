@@ -1,19 +1,21 @@
-<?xml version="1.0" encoding="UTF-8" ?>
-<Warehouse>
-  <Id>1</Id>
-  <CargoList>
-    <Cargo>
-      <Volume>1.0</Volume>
-      <Weight>10</Weight>
-      <Code>ABC</Code>
-      <Id>2e4ca033-8446-4c3b-9cd9-8db0d34f88b2</Id>
-      <Invoice>
-        <Id>9aee2559-bcf7-478c-aa80-93a1f06c680f</Id>
-        <RecipientAddress>123 Main St.</RecipientAddress>
-        <SenderAddress>456 Elm St.</SenderAddress>
-        <RecipientPhoneNumber>555-1234</RecipientPhoneNumber>
-        <SenderPhoneNumber>555-5678</SenderPhoneNumber>
-      </Invoice>
-    </Cargo>
-  </CargoList>
-</Warehouse>
+<?xml version="1.0" encoding="utf-8"?>
+<ArrayOfWarehouse>
+  <Warehouse>
+    <Id>1</Id>
+    <CargoList>
+      <Cargo>
+        <Volume>1</Volume>
+        <Weight>10</Weight>
+        <Code>ABC</Code>
+        <Id>2e4ca033-8446-4c3b-9cd9-8db0d34f88b2</Id>
+        <Invoice>
+          <Id>9aee2559-bcf7-478c-aa80-93a1f06c680f</Id>
+          <RecipientAddress>Street Name 0</RecipientAddress>
+          <SenderAddress>Street Name 1</SenderAddress>
+          <RecipientPhoneNumber>123456789</RecipientPhoneNumber>
+          <SenderPhoneNumber>123456789</SenderPhoneNumber>
+        </Invoice>
+      </Cargo>
+    </CargoList>
+  </Warehouse>
+</ArrayOfWarehouse>

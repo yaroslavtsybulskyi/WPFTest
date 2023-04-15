@@ -13,9 +13,11 @@ namespace Logistic.Core.Services.Tests
         public void Create_WhenValidWarehouse_ReturnsCreatedWarehouse()
         {
             // Arrange
-            var repository = new InMemoryRepository<Warehouse>();
-            var service = new WarehouseService(repository);
+            var repository = new Mock<IRepository<Warehouse>>();
+            var service = new WarehouseService(repository.Object);
             var warehouse = new Warehouse();
+
+            repository.Setup(r => r.Create(warehouse)).Returns(warehouse);
 
             // Act
             var createdWarehouse = service.Create(warehouse);
@@ -31,7 +33,7 @@ namespace Logistic.Core.Services.Tests
             // Arrange
             var warehouse = new Warehouse();
             warehouse.Id = 1;
-            var repository = new Mock<InMemoryRepository<Warehouse>>();
+            var repository = new Mock<IRepository<Warehouse>>();
             repository.Setup(x => x.ReadById(warehouse.Id)).Returns(warehouse);
             var service = new WarehouseService(repository.Object);
 
@@ -52,7 +54,7 @@ namespace Logistic.Core.Services.Tests
                 new Warehouse(),
                 new Warehouse()
             };
-            var repositoryMock = new Mock<InMemoryRepository<Warehouse>>();
+            var repositoryMock = new Mock<IRepository<Warehouse>>();
             repositoryMock.Setup(r => r.ReadAll()).Returns(warehouseList);
             var service = new WarehouseService(repositoryMock.Object);
 
@@ -72,7 +74,7 @@ namespace Logistic.Core.Services.Tests
         {
             // Arrange
             int existingWarehouseId = 1;
-            var mockRepo = new Mock<InMemoryRepository<Warehouse>>();
+            var mockRepo = new Mock<IRepository<Warehouse>>();
             var service = new WarehouseService(mockRepo.Object);
 
             var existingWarehouse = new Warehouse()
@@ -102,7 +104,7 @@ namespace Logistic.Core.Services.Tests
                 .Create();
             var cargo = fixture.Create<Cargo>();
 
-            var repositoryMock = new Mock<InMemoryRepository<Warehouse>>();
+            var repositoryMock = new Mock<IRepository<Warehouse>>();
             repositoryMock.Setup(r => r.ReadById(warehouseId)).Returns(warehouse);
 
             var service = new WarehouseService(repositoryMock.Object);
@@ -123,7 +125,7 @@ namespace Logistic.Core.Services.Tests
             var cargoId = Guid.NewGuid();
             var cargos = new List<Cargo> { new Cargo { Id = cargoId, Volume = 10, Weight = 100 } };
             var warehouse = new Warehouse { Id = warehouseId, CargoList = cargos };
-            var mockRepository = new Mock<InMemoryRepository<Warehouse>>();
+            var mockRepository = new Mock<IRepository<Warehouse>>();
             mockRepository.Setup(r => r.ReadById(warehouseId)).Returns(warehouse);
             var service = new WarehouseService(mockRepository.Object);
 

@@ -4,6 +4,7 @@ using Logistic.DAL;
 using Logistic.Models;
 using Moq;
 using Newtonsoft.Json;
+using NSubstitute;
 using Xunit;
 
 namespace Logistic.Core.Services.Tests
@@ -33,7 +34,7 @@ namespace Logistic.Core.Services.Tests
         }
 
         [Fact]
-        public void LoadReport_LoadsXmlDataFromFile()
+        public void LoadReport_WithXmlExtension_ReturnsDeserializedData1()
         {
             // Arrange
             var expectedData = new List<Warehouse>()
@@ -42,20 +43,14 @@ namespace Logistic.Core.Services.Tests
                 new Warehouse(new List<Cargo>() { new Cargo(3, 30), new Cargo(4, 40) })
             };
 
-            var testDataDirectory = "TestData";
-            var xmlFilePath = Path.Combine(testDataDirectory, "test_report.xml");
+            var fileName = "test.xml";
 
-            var serializer = new XmlSerializer(typeof(List<Warehouse>));
-            using (var writer = new StreamWriter(xmlFilePath))
-            {
-                serializer.Serialize(writer, expectedData);
-            }
-
-            var xmlRepository = new XmlRepository<Warehouse>();
-            var reportService = new ReportService<Warehouse>(null, xmlRepository);
+            var xmlRepositoryMock = new Mock<IReportRepository<Warehouse>>();
+            var reportService = new ReportService<Warehouse>(null, xmlRepositoryMock.Object);
+            xmlRepositoryMock.Setup(x => x.Read(fileName)).Returns(expectedData);
 
             // Act
-            var result = reportService.LoadReport(xmlFilePath);
+            var result = reportService.LoadReport(fileName);
 
             // Assert
             Assert.NotNull(result);
@@ -84,18 +79,14 @@ namespace Logistic.Core.Services.Tests
                 new Warehouse(new List<Cargo>() { new Cargo(3, 30), new Cargo(4, 40) })
             };
 
-            var testDataDirectory = "TestData";
-            var jsonFilePath = Path.Combine(testDataDirectory, "test_report.json");
-
-            // Serialize the expected data to a JSON file
-            File.WriteAllText(jsonFilePath, JsonConvert.SerializeObject(expectedData));
+            var testFile = "test_report.json";
 
             var jsonRepositoryMock = new Mock<IReportRepository<Warehouse>>();
-            jsonRepositoryMock.Setup(x => x.Read(jsonFilePath)).Returns(expectedData);
+            jsonRepositoryMock.Setup(x => x.Read(testFile)).Returns(expectedData);
             var reportService = new ReportService<Warehouse>(jsonRepositoryMock.Object, null);
 
             // Act
-            var result = reportService.LoadReport(jsonFilePath);
+            var result = reportService.LoadReport(testFile);
 
             // Assert
             Assert.NotNull(result);
