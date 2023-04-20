@@ -39,23 +39,23 @@ namespace Logistic.DAL.Tests
             mockMapper.Setup(x => x.Map<IEnumerable<Warehouse>>(It.IsAny<IEnumerable<Warehouse>>()))
                       .Returns<IEnumerable<Warehouse>>(x => x);
 
-            var entities = new List<Warehouse>
-            {
-            new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) }),
-            new Warehouse(new List<Cargo> { new Cargo(3, 30), new Cargo(4, 40) })
-            };
-
             var repository = new InMemoryRepository<Warehouse>();
-            var field = repository.GetType().GetField("_entities", BindingFlags.NonPublic | BindingFlags.Instance);
-            field.SetValue(repository, entities);
+
+            var warehouse1 = new Warehouse(new List<Cargo> { new Cargo(1, 10), new Cargo(2, 20) });
+            var warehouse2 = new Warehouse(new List<Cargo> { new Cargo(3, 30), new Cargo(4, 40) });
+
+            repository.Create(warehouse1);
+            repository.Create(warehouse2);
+
+            var expected = new List<Warehouse> { warehouse1, warehouse2 };
 
             // Act
             var result = repository.ReadAll();
 
             // Assert
             result.Should().NotBeNull();
-            result.Should().HaveSameCount(entities);
-            result.Should().BeEquivalentTo(entities);
+            result.Should().HaveSameCount(expected);
+            result.Should().BeEquivalentTo(expected);
         }
 
         [Fact]

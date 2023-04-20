@@ -1,13 +1,12 @@
 ﻿using Logistic.Models;
-using Newtonsoft.Json;
 using Xunit;
 
 namespace Logistic.DAL.Tests
 {
-    public class JsonRepositoryTests
+    public class XmlRepositoryTests
     {
         [Fact]
-        public void Create_WithValidEntities_CallsCorrectRepositoryMethod_Json()
+        public void Create_WithValidEntities_CallsCorrectRepositoryMethod()
         {
             // Arrange
             var warehouses = new List<Warehouse>()
@@ -16,29 +15,31 @@ namespace Logistic.DAL.Tests
                 new Warehouse(new List<Cargo>() { new Cargo(20, 300), new Cargo(30, 400) })
             };
 
-            string expectedFileName = $"Warehouse_{DateTime.Now:yyyyMMddHHmmss}.json";
-            var jsonRepository = new JsonRepository<Warehouse>();
+            string expectedFileName = $"Warehouse_{DateTime.Now:yyyyMMddHHmmss}.xml";
+            var repository = new XmlRepository<Warehouse>();
 
             // Act
-            jsonRepository.Create(warehouses);
+            repository.Create(warehouses);
 
             // Assert
             Assert.True(File.Exists(expectedFileName));
         }
 
         [Fact]
-        public void LoadReport_LoadsJsonDataFromFile()
+        public void LoadReport_LoadsXmlDataFromFile()
         {
             // Arrange
-            var jsonRepository = new JsonRepository<Warehouse>();
-            var filePath = Path.Combine("Resources", "test.json");
+            var xmlRepository = new XmlRepository<Warehouse>();
+            var filePath = Path.Combine("Resources", "warehouseXmlRepositoryTestData.xml");
 
             // Act
-            var result = jsonRepository.Read(filePath);
+            var result = xmlRepository.Read(filePath);
+
 
             // Assert
             Assert.Equal(1, result[0].Id);
             Assert.NotNull(result);
+            Assert.IsType<List<Warehouse>>(result);
             Assert.Single(result);
             Assert.Equal(1, result[0].Id);
             Assert.NotNull(result[0].CargoList);
@@ -57,14 +58,14 @@ namespace Logistic.DAL.Tests
         public void LoadReport_WithUnsupportedExtension_ThrowsException()
         {
             // Arrange
-            var repository = new JsonRepository<Warehouse>();
-            var filePath = Path.Combine("Resources", "test.txt");
+            var repository = new XmlRepository<Warehouse>();
+            var filePath = Path.Combine("Resources", "IncorrectExtensionRepositoryTestData.txt");
 
             // Act
-            var exception = Assert.Throws<JsonReaderException>(() => repository.Read(filePath));
+            var exception = Assert.Throws<InvalidOperationException>(() => repository.Read(filePath));
 
             //Assert
-            Assert.Contains("Unexpected character encountered while parsing value", exception.Message);
+            Assert.Contains("There is an error in XML document", exception.Message);
         }
     }
 }
