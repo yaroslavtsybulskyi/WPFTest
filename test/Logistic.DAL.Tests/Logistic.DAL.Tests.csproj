@@ -24,13 +24,9 @@
     <PackageReference Include="FluentAssertions" Version="6.10.0" />
     <PackageReference Include="AutoFixture" Version="4.18.0" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="AutoMapper" Version="12.0.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Logistic.Models\Logistic.Models.csproj" />
-    <ProjectReference Include="..\Logistic.DAL\Logistic.DAL.csproj" />
-    <ProjectReference Include="..\Logistic.Core\Logistic.Core.csproj" />
-  </ItemGroup>
   <ItemGroup>
     <None Remove="Resources\" />
   </ItemGroup>
@@ -44,19 +40,26 @@
     <None Update="Resources\test.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\test.txt">
+    <None Update="Resources\warehouseJsonRepositoryTestData.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Update="Resources\warehouseXmlRepositoryTestData.xml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\test.xml">
+    <None Update="Resources\IncorrectExtensionRepositoryTestData.txt">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <None Update="Resources\untitled.xml">
+    <None Update="Resources\warehouseJsonRepositoryTestData.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="XmlRepositoryTest.cs">
+    <Compile Condition=" '$(EnableDefaultCompileItems)' == 'true' " Update="JsonRepositoryTest.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\src\Logistic.DAL\Logistic.DAL.csproj" />
+    <ProjectReference Include="..\..\src\Logistic.Core\Logistic.Core.csproj" />
   </ItemGroup>
 </Project>
