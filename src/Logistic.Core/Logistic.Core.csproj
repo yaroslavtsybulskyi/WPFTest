@@ -1,0 +1,13 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Logistic.Models\Logistic.Models.csproj" />
+    <ProjectReference Include="..\Logistic.DAL\Logistic.DAL.csproj" />
+  </ItemGroup>
+</Project>
