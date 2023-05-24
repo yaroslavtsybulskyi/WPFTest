@@ -1,12 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using AutoMapper;
+﻿using AutoMapper;
 using Logistic.Models;
 
 namespace Logistic.DAL
 {
-    public class InMemoryRepository<TEntity> : IRepository<TEntity>  where TEntity : IEntity
+    public class InMemoryRepository<TEntity> : IRepository<TEntity> where TEntity : IEntity
     {
         private readonly List<TEntity> _entities = new List<TEntity>();
         private readonly Func<TEntity, object> _getIdFunc;
@@ -37,12 +34,12 @@ namespace Logistic.DAL
             return entitiesToReturn;
         }
 
-        public TEntity ReadById(object id)
+        public TEntity ReadById(int id)
         {
-            return _entities.Find(e => e.Id.Equals(id));
+            return _entities.FirstOrDefault(e => e.Id.Equals(id));
         }
 
-        public void Update(object id, TEntity entity)
+        public void Update(int id, TEntity entity)
         {
             var existingEntity = _entities.FirstOrDefault(e => e.Id.Equals(id));
             if (existingEntity != null)
@@ -52,9 +49,9 @@ namespace Logistic.DAL
             }
         }
 
-        public void Delete(object id)
+        public void Delete(int id)
         {
-            var entity = _entities.Find(e => e.Id.Equals(id));
+            var entity = _entities.FirstOrDefault(e => e.Id.Equals(id));
             if (entity != null)
             {
                 _entities.Remove(entity);

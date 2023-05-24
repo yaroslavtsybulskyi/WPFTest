@@ -1,9 +1,8 @@
-﻿using System;
-namespace Logistic.Models
+﻿namespace Logistic.Models
 {
-	public enum ReportType
-	{
-		Json,
-		Xml
-	}
+    public enum ReportType
+    {
+        Json,
+        Xml
+    }
 }

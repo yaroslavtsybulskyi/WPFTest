@@ -4,8 +4,8 @@
     {
         TEntity Create(TEntity entity);
         IEnumerable<TEntity> ReadAll();
-        TEntity ReadById(object id);
-        void Update(object id, TEntity entity);
-        void Delete(object id);
+        TEntity ReadById(int id);
+        void Update(int id, TEntity entity);
+        void Delete(int id);
     }
 }

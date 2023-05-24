@@ -1,6 +1,4 @@
-﻿using System.Text;
-using System.Xml.Serialization;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+﻿using System.Xml.Serialization;
 
 namespace Logistic.DAL
 {

@@ -150,7 +150,7 @@ namespace Logistic.Core.Services.Tests
             var repository = Substitute.For<IRepository<Vehicle>>();
             repository.Create(vehicle);
             var service = new VehicleService(repository);
-            var cargo = new Cargo(15, 100); 
+            var cargo = new Cargo(15, 100);
             var vehicleId = vehicle.Id;
 
             // Act and assert
