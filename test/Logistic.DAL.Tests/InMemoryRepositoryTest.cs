@@ -1,5 +1,4 @@
-﻿using System.Reflection;
-using AutoMapper;
+﻿using AutoMapper;
 using FluentAssertions;
 using Logistic.Models;
 using Moq;

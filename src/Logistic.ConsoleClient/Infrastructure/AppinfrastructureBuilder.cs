@@ -1,8 +1,6 @@
-﻿using System.Collections.Generic;
-using Logistic.Core.Services;
-using Logistic.Core;
-using Logistic.Models;
+﻿using Logistic.Core.Services;
 using Logistic.DAL;
+using Logistic.Models;
 
 namespace Logistic.ClientApp
 {

@@ -61,5 +61,6 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Logistic.DAL\Logistic.DAL.csproj" />
     <ProjectReference Include="..\..\src\Logistic.Core\Logistic.Core.csproj" />
+    <ProjectReference Include="..\..\src\Logistic.Desktop\Logistic.Desktop\Logistic.Desktop.csproj" />
   </ItemGroup>
 </Project>

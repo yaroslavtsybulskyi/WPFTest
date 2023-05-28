@@ -1,7 +1,5 @@
-﻿using System;
+﻿using Logistic.DAL;
 using Logistic.Models;
-using Logistic.DAL;
-using System.Linq;
 
 namespace Logistic.Core.Services
 {

@@ -1,5 +1,4 @@
-﻿using System;
-namespace Logistic.Models
+﻿namespace Logistic.Models
 
 {
     public enum VehicleType

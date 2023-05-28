@@ -1,6 +1,4 @@
-﻿using System;
-using Logistic.Core;
-using Logistic.Core.Services;
+﻿using Logistic.Core.Services;
 using Logistic.Models;
 
 namespace Logistic.ClientApp

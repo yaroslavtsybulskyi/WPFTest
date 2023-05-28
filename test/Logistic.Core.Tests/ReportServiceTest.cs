@@ -1,10 +1,7 @@
-﻿using System.Xml.Serialization;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Logistic.DAL;
 using Logistic.Models;
 using Moq;
-using Newtonsoft.Json;
-using NSubstitute;
 using Xunit;
 
 namespace Logistic.Core.Services.Tests

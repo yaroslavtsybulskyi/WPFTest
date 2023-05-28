@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Text.Json;
-using System.Xml.Serialization;
-using Logistic.DAL;
+﻿using Logistic.DAL;
 using Logistic.Models;
 
 namespace Logistic.Core.Services

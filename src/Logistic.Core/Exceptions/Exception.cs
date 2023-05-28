@@ -1,5 +1,4 @@
-﻿using System;
-namespace Logistic.Core
+﻿namespace Logistic.Core
 {
     public class MoreVolumeNeeded : Exception
     {

@@ -1,5 +1,5 @@
-﻿using Logistic.Models;
-using Logistic.DAL;
+﻿using Logistic.DAL;
+using Logistic.Models;
 
 namespace Logistic.Core.Services
 {
@@ -46,8 +46,8 @@ namespace Logistic.Core.Services
 
         public void Delete(int vehicleId)
         {
-            var vehicle = GetById(vehicleId);
-            _repository.Delete(vehicle);
+            //var vehicle = GetById(vehicleId);
+            _repository.Delete(vehicleId);
         }
 
         public void LoadCargo(Cargo cargo, int vehicleId)
@@ -82,5 +82,15 @@ namespace Logistic.Core.Services
             vehicle.Cargos.Remove(cargo);
             _repository.Update(vehicleId, vehicle);
         }
+        public void Update(Vehicle updatedVehicle)
+        {
+            if (updatedVehicle == null)
+            {
+                throw new ArgumentNullException(nameof(updatedVehicle));
+            }
+
+            _repository.Update(updatedVehicle.Id, updatedVehicle);
+        }
+
     }
 }
