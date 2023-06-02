@@ -3,7 +3,7 @@ using Logistic.Models;
 
 namespace Logistic.Core.Services
 {
-    public class VehicleService
+    public class VehicleService: IService<Vehicle>
     {
         private readonly IRepository<Vehicle> _repository;
 
