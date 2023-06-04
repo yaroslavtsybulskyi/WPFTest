@@ -3,7 +3,7 @@ using Logistic.Models;
 
 namespace Logistic.Core.Services
 {
-    public class ReportService<T>
+    public class ReportService<T> : IReportService<T>
     {
         private readonly IReportRepository<T> _jsonRepository;
         private readonly IReportRepository<T> _xmlRepository;

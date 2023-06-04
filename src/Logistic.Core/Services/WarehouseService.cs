@@ -3,7 +3,7 @@ using Logistic.Models;
 
 namespace Logistic.Core.Services
 {
-    public class WarehouseService
+    public class WarehouseService :IService<Warehouse>
     {
         private readonly IRepository<Warehouse> _repository;
 
@@ -50,6 +50,16 @@ namespace Logistic.Core.Services
 
             warehouse.CargoList?.Remove(cargo);
             _repository.Update(warehouseId, warehouse);
+        }
+
+        public void Update(Warehouse updatedWarehouse)
+        {
+            if (updatedWarehouse == null)
+            {
+                throw new ArgumentNullException(nameof(updatedWarehouse));
+            }
+
+            _repository.Update(updatedWarehouse.Id, updatedWarehouse);
         }
     }
 }

@@ -20,6 +20,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logistic.ClientApp", "src\L
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Logistic.Desktop", "src\Logistic.Desktop\Logistic.Desktop\Logistic.Desktop.csproj", "{16A29279-B62F-4B9E-B46D-F3F57506ACC5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Logistic.WebAPI", "src\Logistic.WebAPI\Logistic.WebAPI.csproj", "{2092FFEA-0F02-4245-862F-271A1A095707}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -54,6 +56,10 @@ Global
 		{16A29279-B62F-4B9E-B46D-F3F57506ACC5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{16A29279-B62F-4B9E-B46D-F3F57506ACC5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{16A29279-B62F-4B9E-B46D-F3F57506ACC5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2092FFEA-0F02-4245-862F-271A1A095707}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2092FFEA-0F02-4245-862F-271A1A095707}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2092FFEA-0F02-4245-862F-271A1A095707}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2092FFEA-0F02-4245-862F-271A1A095707}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -66,6 +72,7 @@ Global
 		{EDEBC302-EE87-4654-812D-B2268BC79DEA} = {8B66CA30-466B-4C10-8E9B-5D6117888EE8}
 		{E3C10EED-543C-4893-9C6F-DB260B26D8CE} = {8B66CA30-466B-4C10-8E9B-5D6117888EE8}
 		{16A29279-B62F-4B9E-B46D-F3F57506ACC5} = {8B66CA30-466B-4C10-8E9B-5D6117888EE8}
+		{2092FFEA-0F02-4245-862F-271A1A095707} = {8B66CA30-466B-4C10-8E9B-5D6117888EE8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {1DA2813A-5AED-42F8-A05F-1BDDDF3028C8}
