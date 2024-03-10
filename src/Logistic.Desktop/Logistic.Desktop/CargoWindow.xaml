@@ -5,39 +5,45 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Logistic.Desktop"
         mc:Ignorable="d"
-        Title="Cargo management" Height="450" Width="800">
+        Title="Cargo management" Height="480" Width="800">
     <Grid>
-        <Button Content="Cancel" HorizontalAlignment="Left" Margin="687,390,0,0" VerticalAlignment="Top" Height="34" Width="96" Click="CancelButton_Click"/>
+        <Button Content="Cancel" HorizontalAlignment="Left" Margin="667,412,0,0" VerticalAlignment="Top" Height="34" Width="96" Click="CancelButton_Click"/>
         <GroupBox Header="Remove existing cargo" Margin="10,10,429,10">
             <Grid Height="387">
-                <ListBox x:Name="ListBoxExistingCargo" Margin="10,10,10,57" DisplayMemberPath="Code" SelectedItem="{Binding SelectedCargo, Mode=TwoWay}" ItemsSource="{Binding ExistingCargos}" />
-                <Button Content="Unload selected cargo" HorizontalAlignment="Left" Margin="10,343,0,0" VerticalAlignment="Top" Height="34" Width="148" Click="UnloadSelectedCargoButton_Click"/>
+                <ListBox x:Name="ListBoxExistingCargo" Margin="10,10,10,57" SelectedItem="{Binding SelectedCargo, Mode=TwoWay}" ItemsSource="{Binding ExistingCargos}">
+                    <ListBox.ItemTemplate>
+                        <DataTemplate>
+                            <TextBlock Text="{Binding Code}" AutomationProperties.Name="{Binding Code}" />
+                        </DataTemplate>
+                    </ListBox.ItemTemplate>
+                </ListBox>
+                <Button Content="Unload selected cargo" AutomationProperties.AutomationId="UnloadCargoButton" HorizontalAlignment="Center" Margin="0,343,0,0" VerticalAlignment="Top" Height="34" Width="148" Click="UnloadSelectedCargoButton_Click"/>
             </Grid>
         </GroupBox>
         <GroupBox Header="Add new cargo" Margin="382,10,17,57">
             <Grid>
                 <TextBlock Text="Volume" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10"/>
-                <TextBox x:Name="TextBoxVolume" VerticalAlignment="Center" Margin="120,0,10,0" Width="200"/>
+                <TextBox x:Name="TextBoxVolume" AutomationProperties.AutomationId="TextVolume" VerticalAlignment="Center" Margin="120,0,10,0" Width="200"/>
 
                 <TextBlock Text="Weight" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,30,0,0"/>
-                <TextBox x:Name="TextBoxWeight" VerticalAlignment="Center" Margin="120,30,10,0" Width="200"/>
+                <TextBox x:Name="TextBoxWeight" AutomationProperties.AutomationId="TextWeight" VerticalAlignment="Center" Margin="120,30,10,0" Width="200"/>
 
                 <TextBlock Text="Code" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,60,0,0"/>
-                <TextBox x:Name="TextBoxCode" VerticalAlignment="Center" Margin="120,60,10,0" Width="200"/>
+                <TextBox x:Name="TextBoxCode" AutomationProperties.AutomationId="TextCode" VerticalAlignment="Center" Margin="120,60,10,0" Width="200"/>
 
                 <TextBlock Text="Recipient Address" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,90,0,0"/>
-                <TextBox x:Name="TextBoxRecipientAddress" VerticalAlignment="Center" Margin="120,90,10,0" Width="200"/>
+                <TextBox x:Name="TextBoxRecipientAddress" AutomationProperties.AutomationId="TextRecipientAddress" VerticalAlignment="Center" Margin="120,90,10,0" Width="200"/>
 
                 <TextBlock Text="Sender Address" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,120,0,0"/>
-                <TextBox x:Name="TextBoxSenderAddress" VerticalAlignment="Center" Margin="120,120,10,0" Width="200"/>
+                <TextBox x:Name="TextBoxSenderAddress" AutomationProperties.AutomationId="TextSenderAddress" VerticalAlignment="Center" Margin="120,120,10,0" Width="200"/>
 
                 <TextBlock Text="Recipient Phone Number" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,150,0,0"/>
-                <TextBox x:Name="TextBoxRecipientPhoneNumber" VerticalAlignment="Center" Margin="120,150,10,0" Width="200"/>
+                <TextBox x:Name="TextBoxRecipientPhoneNumber" AutomationProperties.AutomationId="TextRecipientPhoneNumber" VerticalAlignment="Center" Margin="120,150,10,0" Width="200"/>
 
                 <TextBlock Text="Sender Phone Number" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="10,180,0,0"/>
-                <TextBox x:Name="TextBoxSenderPhoneNumber" VerticalAlignment="Center" Margin="120,180,10,0" Width="200"/>
+                <TextBox x:Name="TextBoxSenderPhoneNumber" AutomationProperties.AutomationId="TextSenderPhoneNumber" VerticalAlignment="Center" Margin="120,180,10,0" Width="200"/>
 
-                <Button Name="SaveDataButton" Content="Save changes" HorizontalAlignment="Left" VerticalAlignment="Top" Height="34" Width="120" Click="SaveDataButton_Click" Margin="283,220,0,0"/>
+                <Button Name="SaveDataButton" Content="Save changes" AutomationProperties.AutomationId="SaveChangesButton" HorizontalAlignment="Left" VerticalAlignment="Top" Height="34" Width="120" Click="SaveDataButton_Click" Margin="250,320,0,0"/>
             </Grid>
         </GroupBox>
 

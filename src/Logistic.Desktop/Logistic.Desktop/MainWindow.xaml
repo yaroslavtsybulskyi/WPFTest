@@ -11,31 +11,37 @@
         <TabControl x:Name="TabControl" SelectionChanged="TabControl_SelectionChanged">
             <TabItem Header="Vehicle">
                 <Grid Background="#FFE5E5E5" RenderTransformOrigin="0.552,0.558" Height="408">
-                    <ListView Name="ListViewVehicle" SelectedItem="{Binding SelectedVehicle}" Margin="26,23,441,19" SelectionChanged="ListViewVehicle_SelectionChanged" ItemsSource="Binding _vehicleList">
+                    <ListView Name="ListViewVehicle" AutomationProperties.AutomationId="ListView" SelectedItem="{Binding SelectedVehicle}" Margin="26,23,441,19" SelectionChanged="ListViewVehicle_SelectionChanged" ItemsSource="Binding _vehicleList">
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <Setter Property="AutomationProperties.AutomationId" Value="{Binding Id, StringFormat={}{0}}" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn Header="Id" DisplayMemberBinding="{Binding Id}" Width="40"/>
-                                <GridViewColumn Header="Type" DisplayMemberBinding="{Binding Type}" Width="40"/>
-                                <GridViewColumn Header="Number" DisplayMemberBinding="{Binding Number}" Width="70"/>
-                                <GridViewColumn Header="MaxWeight" DisplayMemberBinding="{Binding MaxCargoWeightKg}" Width="75"/>
-                                <GridViewColumn Header="MaxVolume" DisplayMemberBinding="{Binding MaxCargoVolume}" Width="75"/>
+                                <GridViewColumn Header="Id" AutomationProperties.AutomationId ="ListId" DisplayMemberBinding="{Binding Id}" Width="40"/>
+                                <GridViewColumn Header="Type" AutomationProperties.AutomationId ="ListType" DisplayMemberBinding="{Binding Type}" Width="40"/>
+                                <GridViewColumn Header="Number" AutomationProperties.AutomationId ="ListNumber" DisplayMemberBinding="{Binding Number}" Width="70"/>
+                                <GridViewColumn Header="MaxWeight" AutomationProperties.AutomationId ="ListWeight" DisplayMemberBinding="{Binding MaxCargoWeightKg}" Width="75"/>
+                                <GridViewColumn Header="MaxVolume" AutomationProperties.AutomationId ="ListVolume" DisplayMemberBinding="{Binding MaxCargoVolume}" Width="75"/>
                             </GridView>
                         </ListView.View>
                     </ListView>
+
                     <GroupBox Header="Selected vehicle" Margin="358,29,48,19" Padding="10">
                         <Grid DataContext="{Binding SelectedVehicle}">
-                            <TextBlock Text="Number" Height="22" Margin="10,10,226,285"/>
-                            <TextBox x:Name ="TextBoxNumber" VerticalAlignment="Top" Width="120" Margin="10,39,226,0" Height="22" Text="{Binding SelectedVehicle.Number, Mode=TwoWay}"/>
-                            <TextBox x:Name="TextBoxMaxWeight" VerticalAlignment="Top" Width="120" Margin="146,39,90,0" Height="22" Text="{Binding SelectedVehicle.MaxCargoWeightKg, Mode=TwoWay}"/>
+                            <TextBlock Text="Number"  Height="22" Margin="10,10,226,285"/>
+                            <TextBox x:Name ="TextBoxNumber"  AutomationProperties.AutomationId="EnterNumber" VerticalAlignment="Top" Width="120" Margin="10,39,226,0" Height="22" Text="{Binding SelectedVehicle.Number, Mode=TwoWay}"/>
+                            <TextBox x:Name="TextBoxMaxWeight" AutomationProperties.AutomationId="EnterMaxWeight" VerticalAlignment="Top" Width="120" Margin="146,39,90,0" Height="22" Text="{Binding SelectedVehicle.MaxCargoWeightKg, Mode=TwoWay}"/>
                             <TextBlock Text="Maximum weight" Height="22" Margin="146,10,90,285"/>
-                            <TextBox x:Name="TextBoxMaxVolume" VerticalAlignment="Top" Width="120" Margin="146,103,90,0" Height="22" Text="{Binding SelectedVehicle.MaxCargoVolume, Mode=TwoWay}"/>
+                            <TextBox x:Name="TextBoxMaxVolume" AutomationProperties.AutomationId="EnterMaxVolume" VerticalAlignment="Top" Width="120" Margin="146,103,90,0" Height="22" Text="{Binding SelectedVehicle.MaxCargoVolume, Mode=TwoWay}"/>
                             <TextBlock Text="Maximum Volume" Height="22" Margin="146,81,90,214"/>
                             <TextBlock Text="Vehicle type" Height="22" Margin="10,79,226,216"/>
-                            <ComboBox x:Name="ComboBoxVehicleType" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" Width="120"
+                            <ComboBox x:Name="ComboBoxVehicleType" AutomationProperties.AutomationId="SelectVehicleType" HorizontalAlignment="Left" Margin="10,103,0,0" VerticalAlignment="Top" Width="120"
           ItemsSource="{Binding Source={x:Static local:MainWindow.VehicleTypeValues}}"
           SelectedItem="{Binding SelectedVehicleType, Mode=TwoWay}"
           DisplayMemberPath="."/>
-                            <Button Name="Delete" Content="Delete" Margin="43,277,216,10" Click="DeleteButton_Click">
+                            <Button Name="Delete" Content="Delete" AutomationProperties.AutomationId="DeleteButton" Margin="43,277,216,10" Click="DeleteButton_Click">
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Setter Property="IsEnabled" Value="True"/>
@@ -51,7 +57,7 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <Button Content="Update" Margin="145,277,113,10" Click="UpdateButton_Click">
+                            <Button Content="Update" Margin="145,277,113,10" AutomationProperties.AutomationId="UpdateButon" Click="UpdateButton_Click">
                                 <Button.Style>
                                     <Style TargetType="Button">
                                         <Setter Property="IsEnabled" Value="True"/>
@@ -67,9 +73,9 @@
                                     </Style>
                                 </Button.Style>
                             </Button>
-                            <Button Name="LoadCargoButton" Content="Cargo managment..." Margin="10,143,211,143" Click="LoadCargoButton_Click" />
-                            <Button Content="Create" Margin="248,277,10,10" Click="CreateButton_Click"/>
-                            <Button Content="Clear" Margin="248,240,10,50" Click="ClearButton_Click"/>
+                            <Button Name="LoadCargoButton" Content="Cargo managment..." AutomationProperties.AutomationId="LoadCargoButton" Margin="10,143,211,143" Click="LoadCargoButton_Click" />
+                            <Button Content="Create" Margin="248,277,10,10" AutomationProperties.AutomationId="CreateButton" Click="CreateButton_Click"/>
+                            <Button Content="Clear" Margin="248,240,10,50" AutomationProperties.AutomationId="ClearButton"  Click="ClearButton_Click"/>
                         </Grid>
                     </GroupBox>
                 </Grid>
